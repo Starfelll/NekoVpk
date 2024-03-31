@@ -1,0 +1,13 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="NekoVpk.App"
+             RequestedThemeVariant="Default">
+             <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
+
+    <Application.Styles>
+        <!--<FluentTheme />
+		<StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml"/>-->
+		<StyleInclude Source="avares://Semi.Avalonia/Themes/Index.axaml" />
+		<StyleInclude Source="avares://Semi.Avalonia.DataGrid/Index.axaml" />
+	</Application.Styles>
+</Application>

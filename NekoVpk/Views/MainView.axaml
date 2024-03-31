@@ -1,0 +1,111 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:NekoVpk.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="NekoVpk.Views.MainView"
+             x:DataType="vm:MainViewModel">
+  <Design.DataContext>
+    <!-- This only sets the DataContext for the previewer in an IDE,
+         to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
+    <vm:MainViewModel />
+  </Design.DataContext>
+	  <Grid RowDefinitions="auto,*">
+			<Grid Grid.Row="0" Margin="10" ColumnDefinitions="*,auto,auto" VerticalAlignment="Center" HorizontalAlignment="Left">
+				<TextBox Grid.Column="0" Name="GameDir" Text="{Binding GameDir}" InnerLeftContent="GameDir" TextWrapping="NoWrap" Width="600" Height="32" IsUndoEnabled="True"></TextBox>
+				<Button Grid.Column="1" Click="Browser_Click" Classes="Tertiary" Height="32">...</Button>
+				<Button Grid.Column="2" Click="Button_Click" Classes="Primary" Theme="{DynamicResource SolidButton}" Height="32" Margin="20 0 0 0">Nya!</Button>
+			</Grid>
+			<Grid Grid.Row="1" ColumnDefinitions="*,auto,0.3*" RowDefinitions="*" MinHeight="360">
+				<DataGrid Grid.Column="0" Name="AddonList" ItemsSource="{Binding Addons}" IsReadOnly="False"
+						  AutoGenerateColumns="False" CanUserResizeColumns="True" CanUserReorderColumns="True"
+						  CurrentCellChanged="DataGrid_CurrentCellChanged"
+						  BeginningEdit="DataGrid_BeginningEdit"
+						  CellEditEnded="DataGrid_CellEditEnded"
+						  DoubleTapped="AddonList_DoubleTapped">
+					<DataGrid.ContextMenu>
+						<ContextMenu>
+							<MenuItem Click="AddonList_Menu_LocateFile" Header="Locate file" />
+						</ContextMenu>
+					</DataGrid.ContextMenu>
+					<DataGrid.Columns>
+						<DataGridTextColumn Header=""  Width="0" />
+						<DataGridCheckBoxColumn Header="Enable" Binding="{Binding Enable}" Width="80" />
+						<DataGridTextColumn Header="Title" Binding="{Binding Title}" Width="256"/>
+						<DataGridTextColumn Header="Source" Binding="{Binding Source}" Width="auto"/>
+						<DataGridTemplateColumn Header="Tag" Width="128" CanUserSort="true" SortMemberPath="TagsOrde">
+							<DataGridTemplateColumn.CellTemplate>
+								<DataTemplate>
+									<ItemsControl ItemsSource="{Binding Tags}">
+										<ItemsControl.ItemsPanel>
+											<ItemsPanelTemplate>
+												<StackPanel VerticalAlignment="Center" Margin="4" Orientation="Horizontal"/>
+											</ItemsPanelTemplate>
+										</ItemsControl.ItemsPanel>
+										<ItemsControl.ItemTemplate>
+											<DataTemplate>
+												<Label Theme="{StaticResource TagLabel}" Loaded="AssetTag_Label_Loaded" Classes.Solid="{Binding Enable}" Classes.Ghost="{Binding !Enable}">
+													<TextBlock Text="{Binding Name}" Classes.Delete="{Binding Enable}"></TextBlock>
+												</Label>
+											</DataTemplate>
+										</ItemsControl.ItemTemplate>
+									</ItemsControl>
+								</DataTemplate>
+							</DataGridTemplateColumn.CellTemplate>
+							<!--<DataGridTemplateColumn.CellEditingTemplate>
+								<DataTemplate>
+									<ItemsControl ItemsSource="{Binding Tags}">
+										<ItemsControl.ItemsPanel>
+											<ItemsPanelTemplate>
+												<StackPanel VerticalAlignment="Center" Margin="4" Orientation="Horizontal"/>
+											</ItemsPanelTemplate>
+										</ItemsControl.ItemsPanel>
+										<ItemsControl.ItemTemplate>
+											<DataTemplate>
+												<ToggleButton Classes="Small Danger" IsChecked="{Binding Enable}" Content="{Binding Name}" Loaded="AssetTag_ToggleButton_Loaded"/>
+											</DataTemplate>
+										</ItemsControl.ItemTemplate>
+									</ItemsControl>
+								</DataTemplate>
+							</DataGridTemplateColumn.CellEditingTemplate>-->
+						</DataGridTemplateColumn>
+						<DataGridTextColumn Header="File Name" Binding="{Binding FileName}" Width="256"/>
+						<DataGridTextColumn Header="Author" Binding="{Binding Author}" Width="64"/>
+					</DataGrid.Columns>
+				</DataGrid>
+				<GridSplitter Grid.Column="1" ResizeDirection="Columns"/>
+				<ScrollViewer Grid.Column="2" AllowAutoHide="True">
+					<StackPanel Orientation="Vertical" >
+						<Border Background="{StaticResource ThemeBackgroundBrush}" Margin="10">
+							<Image Name="AddonImage" MaxHeight="128" MinWidth="256"></Image>
+						</Border>
+						<Grid Margin="10" RowDefinitions="auto,auto,auto,auto,auto" ColumnDefinitions="*">
+							<Grid.Styles>
+								<Style Selector="TextBox.s1">
+									<Setter Property="FlowDirection" Value="LeftToRight"/>
+									<Setter Property="FontSize" Value="12"/>
+									<Setter Property="VerticalAlignment" Value="Center"/>
+									<Setter Property="Grid.Column" Value="0"/>
+									<Setter Property="Margin" Value="2"/>
+									<Setter Property="IsReadOnly" Value="True"/>
+								</Style>
+								<Style Selector="TextBlock">
+									<Setter Property="Grid.Column" Value="0"/>
+									<Setter Property="FontSize" Value="13"/>
+									<Setter Property="LineHeight" Value="16"/>
+									<Setter Property="VerticalAlignment" Value="Center"/>
+								</Style>
+							</Grid.Styles>
+							<TextBox Grid.Row="0" InnerLeftContent="Title" Text="{Binding #AddonList.SelectedItem.Title}" Classes="s1 Small Bordered"></TextBox>
+							<TextBox Grid.Row="1" InnerLeftContent="Version" Text="{Binding #AddonList.SelectedItem.Version}" Classes="s1 Small Bordered"></TextBox>
+							<TextBox Grid.Row="2" InnerLeftContent="Author" Text="{Binding #AddonList.SelectedItem.Author}" Classes="s1 Small Bordered"></TextBox>
+							<TextBox Grid.Row="3" InnerLeftContent="File" Text="{Binding #AddonList.SelectedItem.FileName}" Classes="s1 Small Bordered"></TextBox>
+							<TextBox Grid.Row="4" Text="{Binding #AddonList.SelectedItem.Description}" Classes="TextArea" Padding="10 8" Margin="2" TextWrapping="WrapWithOverflow"></TextBox>
+						</Grid>
+					</StackPanel>
+				</ScrollViewer>
+			</Grid>
+	  </Grid>
+
+</UserControl>
