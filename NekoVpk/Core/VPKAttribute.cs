@@ -18,30 +18,7 @@ namespace NekoVpk.Core
         Local
     }
 
-    public class TaggedAsset
-    {
-        public static Dictionary<int, int> TaggedFiles { get; } = [];
-        public static List<TaggedAsset> Tags { get; } = [];
 
-        public string Name { get; }
-
-        public string[] Files { get; }
-
-        public TaggedAsset(string name, string[] files)
-        {
-            Name = name;
-            Files = files;
-        }
-
-        public static void Tag(string name, params string[] files)
-        {
-            foreach (var file in files)
-            {
-                TaggedFiles.Add(file.GetHashCode(), Tags.Count);
-            }
-            Tags.Add(new TaggedAsset(name, files));
-        }
-    }
 
     public class AddonAttribute : ObservableObject
     {
@@ -71,6 +48,17 @@ namespace NekoVpk.Core
         public string? Version { get => AddonInfo.Version; }
         public string? Author { get => AddonInfo.Author; }
         public string? Description { get => AddonInfo.Description; }
+
+        public string? Url { 
+            get
+            {
+                if (Source == AddonSource.WorkShop)
+                {
+                    return @"https://steamcommunity.com/sharedfiles/filedetails/?id=" + Path.ChangeExtension(FileName, "");
+                }
+                return AddonInfo.Url0;
+            }
+        }
 
         public string TagsOrde
         {

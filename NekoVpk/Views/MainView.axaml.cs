@@ -25,6 +25,7 @@ public partial class MainView : UserControl
 
     private void DataGrid_CurrentCellChanged(object? sender, System.EventArgs e)
     {
+        CancelAssetTagChange();
         if (sender is DataGrid dg && dg.SelectedItem is AddonAttribute att && GameDir.Text is not null)
         {
             Package pak = att.LoadPackage(GameDir.Text);
@@ -56,7 +57,9 @@ public partial class MainView : UserControl
     {
         if (DataContext is MainViewModel vm)
         {
+            AddonDetailPanel.IsVisible = true;
             vm.LoadAddons();
+            AddonList.SelectedIndex = 0;
             AddonList.Columns[2].ClearSort();
             AddonList.Columns[2].Sort();
         }
@@ -169,16 +172,131 @@ public partial class MainView : UserControl
                 label.Classes.Add(tag.Color);
             }
         }
+        //"Red", "Pink", "Purple", "Violet", "Indigo",
+        //"Blue", "LightBlue", "Cyan", "Teal", "Green",
+        //"LightGreen", "Lime", "Yellow", "Amber", "Orange",
+        //"Grey"
     }
 
-    private void AssetTag_ToggleButton_Loaded(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+
+    private readonly Dictionary<AssetTag, bool> ModifiedAssetTags = [];
+
+    private void AssetTag_Tapped(object? sender, Avalonia.Input.TappedEventArgs e)
     {
-        if (sender is ToggleButton toggle)
+        if (sender is Label label && label.DataContext is AssetTag tag)
         {
-            if (toggle.DataContext is AssetTag tag)
+            switch(tag.Name)
             {
-                toggle.Classes.Add(tag.Color);
+                case "bill":
+                case "coach":
+                case "ellis":
+                case "francis":
+                case "louis":
+                case "nick":
+                case "rochelle":
+                case "zoey":
+                    break;
+                default:
+                    return;
             }
+            if (!ModifiedAssetTags.ContainsKey(tag))
+            {
+                ModifiedAssetTags[tag] = tag.Enable;
+            }
+            tag.Enable = !tag.Enable;
+            AssetTagModifiedPanel.IsVisible = true;
         }
     }
+
+    private void Button_AssetTagModifiedPanel_Apply(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    {
+
+        if (AddonList.SelectedItem is AddonAttribute att)
+        {
+            Package pkg = att.LoadPackage(GameDir.Text);
+
+            string? nekoDir = null;
+            foreach (var entry in pkg.Entries)
+            {
+                foreach (var f in entry.Value)
+                {
+                    if (f.IsNekoDir(out nekoDir)) break;
+                }
+            }
+            if (nekoDir is null || nekoDir.Length == 0)
+                nekoDir = pkg.GenNekoDir();
+
+
+            List<KeyValuePair<PackageEntry, string>> modified = [];
+            foreach (var entry in pkg.Entries)
+            {
+                foreach (var f in entry.Value)
+                {
+                    foreach (var tag in ModifiedAssetTags.Keys)
+                    {
+                        string? dstPath = null;
+                        if (!tag.Proporty.IsMatch(f, out dstPath, ref nekoDir)) continue;
+
+                        if (!tag.Enable)
+                        {
+                            dstPath = nekoDir + dstPath;
+                        }
+
+                        Debug.Assert(dstPath.Length > 0);
+                        if (pkg.FindEntry(dstPath) is null)
+                        {
+                            modified.Add(new(f, dstPath));
+                        }
+                    }
+                }
+            }
+            
+
+            foreach (var mod in modified)
+            {
+                if (pkg.FindEntry(mod.Value) is null)
+                {
+                    pkg.ReadEntry(mod.Key, out byte[] data);
+                    if (pkg.RemoveFile(mod.Key))
+                        pkg.AddFile(mod.Value, data);
+                }
+            }
+            modified.Clear();
+
+            FileInfo tmpFile = new FileInfo(pkg.FileName + "_nekotmp.vpk");
+            FileInfo srcFile = new(pkg.FileName + ".vpk");
+            if (tmpFile.Exists)
+            {
+                pkg.Dispose();
+                CancelAssetTagChange();
+                return;
+            }
+
+            pkg.Write(tmpFile.FullName, 1);
+            pkg.Dispose();
+
+            tmpFile.Refresh();
+            tmpFile.MoveTo(srcFile.FullName, true);
+            
+
+            ModifiedAssetTags.Clear();
+            AssetTagModifiedPanel.IsVisible = false;
+        }
+    }
+
+    private void CancelAssetTagChange()
+    {
+        AssetTagModifiedPanel.IsVisible = false;
+        foreach (var tag in ModifiedAssetTags)
+        {
+            tag.Key.Enable = tag.Value;
+        }
+        ModifiedAssetTags.Clear();
+    }
+
+    private void Button_AssetTagModifiedPanel_Cancel(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    {
+        CancelAssetTagChange();
+    }
+
 }

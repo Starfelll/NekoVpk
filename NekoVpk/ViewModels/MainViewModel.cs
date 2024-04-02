@@ -9,8 +9,6 @@ using System.Linq;
 using MsBox.Avalonia;
 using MsBox.Avalonia.Enums;
 using Narod.SteamGameFinder;
-using ValveKeyValue;
-using System.Diagnostics;
 
 namespace NekoVpk.ViewModels;
 
@@ -51,16 +49,6 @@ public partial class MainViewModel : ViewModelBase
             }
         }
         return null;
-    }
-
-    void Test()
-    {
-        KVSerializer kvs = KVSerializer.Create(KVSerializationFormat.KeyValues1Text);
-
-        FileInfo file = new("C://Tmp/Test.vdf");
-
-        kvs.Deserialize(file.OpenRead());
-        return;
     }
 
     public async void LoadAddons()
@@ -123,11 +111,11 @@ public partial class MainViewModel : ViewModelBase
                         addonInfoEntry = file;
                     else
                     {
-                        if (TaggedAssets.TaggedFiles.TryGetValue(path, out int v))
+                        if (TaggedAssets.GetAssetTag(file) is AssetTag tag)
                         {
-                            if (!tags.Contains(TaggedAssets.Tags[v]))
+                            if (!tags.Contains(tag))
                             {
-                                tags.Add(TaggedAssets.Tags[v]);
+                                tags.Add(tag);
                             }
                             
                         }

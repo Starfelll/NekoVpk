@@ -2,6 +2,7 @@
 using System;
 using OSVersionExt;
 using OSVersionExtension;
+using Avalonia.Media;
 
 namespace NekoVpk.Views;
 
@@ -10,10 +11,23 @@ public partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
-        if (OSVersion.GetOperatingSystem() != OSVersionExtension.OperatingSystem.Windows11)
+        if (Background is SolidColorBrush brush)
         {
-            //this.TransparencyLevelHint = "None";
+            if (ActualTransparencyLevel == WindowTransparencyLevel.AcrylicBlur || ActualTransparencyLevel == WindowTransparencyLevel.Blur)
+            {
+                brush.Opacity = 0.6;
+            }
+            else if (ActualTransparencyLevel == WindowTransparencyLevel.None)
+            {
+                brush.Opacity = 1;
+            }
+            else
+            {
+                brush.Opacity = 0;
+            }
         }
+
+
     }
 
 }

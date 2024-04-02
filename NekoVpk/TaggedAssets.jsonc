@@ -9,8 +9,8 @@
             "materials/vgui/s_panel_namvet.vmt",
             "materials/vgui/s_panel_namvet_incap.vmt",
             "materials/vgui/select_bill.vmt",
-            "models/survivors/survivor_namvet.mdl",
-            "models/weapons/arms/v_arms_bill.mdl"
+            "models/survivors/survivor_namvet.*",
+            "models/weapons/arms/v_arms_bill.*"
         ]
     },
     "coach": {
@@ -23,8 +23,8 @@
             "materials/vgui/s_panel_coach.vmt",
             "materials/vgui/s_panel_coach_incap.vmt",
             "materials/vgui/s_panel_lobby_coach.vmt",
-            "models/survivors/survivor_coach.mdl",
-            "models/weapons/arms/v_arms_coach_new.mdl"
+            "models/survivors/survivor_coach.*",
+            "models/weapons/arms/v_arms_coach_new.*"
         ]
     },
     "ellis": {
@@ -37,8 +37,8 @@
             "materials/vgui/s_panel_mechanic.vmt",
             "materials/vgui/s_panel_mechanic_incap.vmt",
             "materials/vgui/s_panel_lobby_mechanic.vmt",
-            "models/survivors/survivor_mechanic.mdl",
-            "models/weapons/arms/v_arms_mechanic_new.mdl"
+            "models/survivors/survivor_mechanic.*",
+            "models/weapons/arms/v_arms_mechanic_new.*"
         ]
     },
     "francis": {
@@ -51,8 +51,8 @@
             "materials/vgui/s_panel_biker.vmt",
             "materials/vgui/s_panel_biker_incap.vmt",
             "materials/vgui/select_francis.vmt",
-            "models/survivors/survivor_biker.mdl",
-            "models/weapons/arms/v_arms_francis.mdl"
+            "models/survivors/survivor_biker.*",
+            "models/weapons/arms/v_arms_francis.*"
         ]
     },
     "louis": {
@@ -65,8 +65,8 @@
             "materials/vgui/s_panel_manager.vmt",
             "materials/vgui/s_panel_manager_incap.vmt",
             "materials/vgui/select_louis.vmt",
-            "models/survivors/survivor_manager.mdl",
-            "models/weapons/arms/v_arms_louis.mdl"
+            "models/survivors/survivor_manager.*",
+            "models/weapons/arms/v_arms_louis.*"
         ]
     },
     "nick": {
@@ -79,8 +79,8 @@
             "materials/vgui/s_panel_gambler.vmt",
             "materials/vgui/s_panel_gambler_incap.vmt",
             "materials/vgui/s_panel_lobby_gambler.vmt",
-            "models/survivors/survivor_gambler.mdl",
-            "models/weapons/arms/v_arms_gambler_new.mdl"
+            "models/survivors/survivor_gambler.*",
+            "models/weapons/arms/v_arms_gambler_new.*"
         ]
     },
     "rochelle": {
@@ -93,8 +93,8 @@
             "materials/vgui/s_panel_producer.vmt",
             "materials/vgui/s_panel_producer_incap.vmt",
             "materials/vgui/s_panel_lobby_producer.vmt",
-            "models/survivors/survivor_producer.mdl",
-            "models/weapons/arms/v_arms_producer_new.mdl"
+            "models/survivors/survivor_producer.*",
+            "models/weapons/arms/v_arms_producer_new.*"
         ]
     },
     "zoey": {
@@ -107,8 +107,71 @@
             "materials/vgui/s_panel_teenangst.vmt",
             "materials/vgui/s_panel_teenangst_incap.vmt",
             "materials/vgui/select_zoey.vmt",
-            "models/survivors/survivor_teenangst.mdl",
-            "models/weapons/arms/v_arms_zoey.mdl"
+            "models/survivors/survivor_teenangst.*",
+            "models/weapons/arms/v_arms_zoey.*"
         ]
-    }
+    },
+    "map": {
+        "color": "Teal",
+        "translate": {},
+        "files": [
+            "maps/**"
+        ]
+    }//,
+    // "infected": {
+    //     "color": "Green",
+    //     "translate": {},
+    //     "files": [
+    //         "models/infected/**"
+    //     ]
+    // },
+    // "v_model": {
+    //     "color": "LightGreen",
+    //     "translate": {},
+    //     "files": [
+    //         "models/v_models/**"
+    //     ]
+    // },
+    // "w_model": {
+    //     "color": "Lime",
+    //     "translate": {},
+    //     "files": [
+    //         "models/w_models/**"
+    //     ]
+    // },
+    // "prop": {
+    //     "color": "Yellow",
+    //     "translate": {},
+    //     "files": [
+    //         "models/props*/**"
+    //     ]
+    // },
+    // "script": {
+    //     "color": "Amber",
+    //     "translate": {},
+    //     "files": [
+    //         "scripts/**"
+    //     ]
+    // },
+    // "particle": {
+    //     "color": "Orange",
+    //     "translate": {},
+    //     "files": [
+    //         "particles/**"
+    //     ]
+    // },
+    // "sound": {
+    //     "color": "Red",
+    //     "translate": {},
+    //     "files": [
+    //         "sound/**"
+    //     ]
+    // },
+    // "melee": {
+    //     "color": "Grey",
+    //     "translate": {},
+    //     "files": [
+    //         "models/weapons/melee/**"
+    //     ]
+    // }
 }

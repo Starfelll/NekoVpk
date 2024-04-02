@@ -7,17 +7,20 @@
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="NekoVpk.Views.MainWindow"
         Icon="/Assets/NekoVpk.ico"
-        Title="NekoVpk 0.0.2"
+        Title="NekoVpk 0.0.5 Beta   bilibili@Starfelll"
 		Width="1180" Height="768"
 		WindowStartupLocation="CenterScreen"
-		TransparencyLevelHint="Mica,Blur,None">
-        <views:MainView />
-		<Window.Background>
-			<ImageBrush Source="/Assets/neko_box.png"
-						AlignmentX="Right"
-						AlignmentY="Bottom"
-						TileMode="None"
-						Stretch="None"
-						Opacity="0.25"/>
-		</Window.Background>
+		TransparencyLevelHint="Mica,AcrylicBlur,Blur,None">
+	    <Panel>
+		    <Panel.Background>
+			    <ImageBrush Source="/Assets/neko_box.png"
+                    AlignmentX="Right"
+                    AlignmentY="Bottom"
+                    TileMode="None"
+                    Stretch="None"
+                    Opacity="0.25"/>
+		    </Panel.Background>
+		    <views:MainView />
+        </Panel>
+		
 </Window>

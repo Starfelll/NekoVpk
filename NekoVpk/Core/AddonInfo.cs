@@ -25,6 +25,9 @@ namespace NekoVpk.Core
         [KVProperty("AddonDescription")]
         public string? Description { get; set; }
 
+        [KVProperty("addonURL0")]
+        public string? Url0 { get; set; }
+
         public static AddonInfo Load(byte[] data)
         {
             Utils.MakeSureCharsetIsDefault(ref data);
