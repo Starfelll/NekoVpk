@@ -16,6 +16,9 @@ namespace NekoVpk.Core
     public class AddonList
     {
         protected Dictionary<string, int> KeyValue = [];
+
+        protected Encoding SrcEncoding = Encoding.Default;
+
         public void Load(string gameDir)
         {
             FileInfo file = GetFileInfo(gameDir);
@@ -28,7 +31,7 @@ namespace NekoVpk.Core
 
                 var kvs = KVSerializer.Create(KVSerializationFormat.KeyValues1Text);
 
-                Utils.MakeSureCharsetIsDefault(ref buffer);
+                SrcEncoding = Utils.MakeSureCharsetIsDefault(ref buffer);
                 var deserialized = kvs.Deserialize(new MemoryStream(buffer));
 
                 if (deserialized != null && deserialized.Name.Equals("AddonList", StringComparison.OrdinalIgnoreCase))
@@ -63,7 +66,7 @@ namespace NekoVpk.Core
         public void Save(string gameDir)
         {
             var file = GetFileInfo(gameDir);
-            StreamWriter writer = new(file.FullName, false);
+            StreamWriter writer = new(file.FullName, false, SrcEncoding);
 
             writer.WriteLine("\"AddonList\"\n{");
             foreach(var v in KeyValue)
