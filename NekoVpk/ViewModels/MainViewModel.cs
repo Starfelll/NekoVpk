@@ -9,6 +9,7 @@ using System.Linq;
 using MsBox.Avalonia;
 using MsBox.Avalonia.Enums;
 using Narod.SteamGameFinder;
+using ReactiveUI;
 
 namespace NekoVpk.ViewModels;
 
@@ -20,10 +21,8 @@ public partial class MainViewModel : ViewModelBase
         set {
             if (NekoSettings.Default.GameDir != value)
             {
-                var tmpVal = GameDir;
                 NekoSettings.Default.GameDir = value;
-                SetProperty(ref tmpVal, value);
-                
+                this.RaisePropertyChanged(nameof(GameDir));
             }
         }
     }

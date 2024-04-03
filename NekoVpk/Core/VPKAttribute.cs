@@ -1,13 +1,9 @@
 ﻿using Avalonia;
-using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using SteamDatabase.ValvePak;
-using CommunityToolkit.Mvvm.ComponentModel;
-using System.Runtime.InteropServices;
+using NekoVpk.ViewModels;
+using ReactiveUI;
 
 namespace NekoVpk.Core
 {
@@ -20,7 +16,7 @@ namespace NekoVpk.Core
 
 
 
-    public class AddonAttribute : ObservableObject
+    public class AddonAttribute : ViewModelBase
     {
 
         public static List<AddonAttribute> dirty = [];
@@ -35,7 +31,7 @@ namespace NekoVpk.Core
                 if (_Enabled != value)
                 {
                     _Enabled = value;
-                    SetProperty(ref _Enabled, value);
+                    this.RaisePropertyChanged(nameof(Enable));
                     dirty.Add(this);
                 }
             }

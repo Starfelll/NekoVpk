@@ -1,7 +1,7 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using DotNet.Globbing;
+﻿using DotNet.Globbing;
+using NekoVpk.ViewModels;
+using ReactiveUI;
 using SteamDatabase.ValvePak;
-using System.Security.AccessControl;
 
 namespace NekoVpk.Core
 {
@@ -67,7 +67,7 @@ namespace NekoVpk.Core
 
     }
 
-    public class AssetTag: ObservableObject
+    public class AssetTag: ViewModelBase
     {
         public readonly int Index;
 
@@ -83,7 +83,7 @@ namespace NekoVpk.Core
 
         public bool Enable
         {
-            get => _Enable; set => SetProperty(ref _Enable, value);
+            get => _Enable; set => this.RaiseAndSetIfChanged(ref _Enable, value);
         }
 
         public AssetTag(int index, bool enable = true)

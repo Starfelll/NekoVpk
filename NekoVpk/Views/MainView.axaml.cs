@@ -1,7 +1,6 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform.Storage;
-using CommunityToolkit.Mvvm.ComponentModel;
 using NekoVpk.Core;
 using NekoVpk.ViewModels;
 using SteamDatabase.ValvePak;
@@ -28,7 +27,20 @@ public partial class MainView : UserControl
         CancelAssetTagChange();
         if (sender is DataGrid dg && dg.SelectedItem is AddonAttribute att && GameDir.Text is not null)
         {
-            Package pak = att.LoadPackage(GameDir.Text);
+
+            Package? pak = null;
+            try
+            {
+                pak = att.LoadPackage(GameDir.Text);
+            }
+            catch (FileNotFoundException ex)
+            {
+                AddonImage.Source = null;
+                return;
+            }
+            
+
+            if (pak == null) return;
 
             var entry = pak.FindEntry("addonimage.jpg");
             if (entry != null)
@@ -42,14 +54,14 @@ public partial class MainView : UserControl
                 if (jpg.Exists)
                 {
                     AddonImage.Source = Bitmap.DecodeToHeight(jpg.OpenRead(), 128);
-                } else
+                }
+                else
                 {
                     AddonImage.Source = null;
                 }
             }
             pak.Dispose();
-
-            return;
+            
         }
     }
 
@@ -242,8 +254,7 @@ public partial class MainView : UserControl
                             dstPath = nekoDir + dstPath;
                         }
 
-                        Debug.Assert(dstPath.Length > 0);
-                        if (pkg.FindEntry(dstPath) is null)
+                        if (dstPath != null && pkg.FindEntry(dstPath) is null)
                         {
                             modified.Add(new(f, dstPath));
                         }
