@@ -10,6 +10,8 @@ using MsBox.Avalonia;
 using MsBox.Avalonia.Enums;
 using Narod.SteamGameFinder;
 using ReactiveUI;
+using Avalonia.Collections;
+using DynamicData;
 
 namespace NekoVpk.ViewModels;
 
@@ -27,13 +29,23 @@ public partial class MainViewModel : ViewModelBase
         }
     }
 
-    public ObservableCollection<AddonAttribute> Addons { get; } = [];
+    private List<AddonAttribute> _addonList = [];
+
+    private DataGridCollectionView _Addons;
+
+    public DataGridCollectionView Addons => _Addons;
+
+    string? _SearchKeywords = "";
+
+    public string? SearchKeywords { get => _SearchKeywords; set => this.RaiseAndSetIfChanged(ref _SearchKeywords, value); }
 
     public MainViewModel() {
         if (NekoSettings.Default.GameDir == "")
         {
             NekoSettings.Default.GameDir = TryToFindGameDir() ?? NekoSettings.Default.GameDir;
         }
+
+        _Addons = new(_addonList) { Filter = AddonsFilter };
     }
 
     public static string? TryToFindGameDir()
@@ -75,11 +87,12 @@ public partial class MainViewModel : ViewModelBase
         {
             addonList.Load(GameDir);
         }
-        catch(Exception ex) {
+        catch (Exception ex)
+        {
             App.Logger.Error(ex);
         }
 
-        Addons.Clear();
+        _addonList.Clear();
         foreach (FileInfo fileInfo in files)
         {
             bool? addonEnabled = null;
@@ -116,14 +129,12 @@ public partial class MainViewModel : ViewModelBase
                             {
                                 tags.Add(tag);
                             }
-                            
                         }
                     }
                 }
             }
 
-            
-            
+
             AddonInfo? addonInfo = null;
             if (addonInfoEntry != null)
             {
@@ -138,10 +149,49 @@ public partial class MainViewModel : ViewModelBase
                 }
             }
             addonInfo ??= new();
-            Addons.Add(new(addonEnabled, fileInfo.Name, addonSource, addonInfo));
-            Addons.Last().Tags = tags.ToArray();
+            _addonList.Add(new(addonEnabled, fileInfo.Name, addonSource, addonInfo));
+            _addonList.Last().Tags = tags.ToArray();
         }
+        Addons.Refresh();
     }
 
+    bool AddonsFilter(object obj)
+    {
+        if (String.IsNullOrEmpty(SearchKeywords))
+        {
+            return true;
+        }
+        if (obj is AddonAttribute att)
+        {
+            var tmpStrs = new List<string>(SearchKeywords.Split(' ', StringSplitOptions.RemoveEmptyEntries));
+            int match = 0;
+            foreach (var str in tmpStrs)
+            {
+                foreach(var tag in att.Tags)
+                {
+                    if (tag.Name.Contains(str, StringComparison.OrdinalIgnoreCase))
+                    {
+                        match++; continue;
+                    } 
+                }
 
+                if (att.Title.Contains(str, StringComparison.OrdinalIgnoreCase))
+                {
+                    match++; continue;
+                }
+                    
+                if (att.Author is not null && att.Author.Contains(str, StringComparison.OrdinalIgnoreCase))
+                {
+                    match++; continue;
+                }
+            }
+
+            if (match == tmpStrs.Count)
+            {
+                return true;
+            }
+            
+        }
+        return false;
+    }
 }

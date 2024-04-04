@@ -5,13 +5,10 @@ using NekoVpk.Core;
 using NekoVpk.ViewModels;
 using SteamDatabase.ValvePak;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.IO;
-using System.Linq;
 using System.Diagnostics;
-using Avalonia.Controls.Primitives;
+using Avalonia.Threading;
 
 namespace NekoVpk.Views;
 
@@ -38,7 +35,6 @@ public partial class MainView : UserControl
                 AddonImage.Source = null;
                 return;
             }
-            
 
             if (pak == null) return;
 
@@ -287,6 +283,8 @@ public partial class MainView : UserControl
             pkg.Dispose();
 
             tmpFile.Refresh();
+            tmpFile.LastWriteTime = srcFile.LastWriteTime;
+            tmpFile.CreationTime = srcFile.CreationTime;
             tmpFile.MoveTo(srcFile.FullName, true);
             
 
@@ -310,4 +308,29 @@ public partial class MainView : UserControl
         CancelAssetTagChange();
     }
 
+    private void SubmitAddonSearch()
+    {
+        if (DataContext is MainViewModel vm)
+        {
+            vm.Addons.Refresh();
+        }
+    }
+
+    private void Button_AddonSearch_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    {
+        SubmitAddonSearch();
+    }
+
+    private void TextBox_AddonSearch_KeyUp(object? sender, Avalonia.Input.KeyEventArgs e)
+    {
+        if (e.Key == Avalonia.Input.Key.Enter)
+        {
+            SubmitAddonSearch();
+        }
+    }
+
+    private void TextBox_AddonSearch_TextChanged(object? sender, Avalonia.Controls.TextChangedEventArgs e)
+    {
+        SubmitAddonSearch();
+    }
 }

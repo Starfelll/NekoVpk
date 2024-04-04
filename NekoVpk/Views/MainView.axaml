@@ -11,159 +11,184 @@
          to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
     <vm:MainViewModel />
   </Design.DataContext>
-	  <Grid RowDefinitions="auto,*">
-			<Grid Grid.Row="0" Margin="10" ColumnDefinitions="*,auto,auto" VerticalAlignment="Center" HorizontalAlignment="Left">
-				<TextBox Grid.Column="0" Name="GameDir" Text="{Binding GameDir}" InnerLeftContent="GameDir" TextWrapping="NoWrap" Width="600" Height="32" IsUndoEnabled="True"></TextBox>
-				<Button Grid.Column="1" Click="Browser_Click" Classes="Tertiary" Height="32">...</Button>
-				<Button Grid.Column="2" Click="Button_Click" Classes="Primary" Theme="{DynamicResource SolidButton}" Height="32" Margin="20 0 0 0">Nya!</Button>
-			</Grid>
-			<Grid Grid.Row="1" ColumnDefinitions="*,auto,0.3*" RowDefinitions="*" MinHeight="360">
-				<DataGrid Grid.Column="0" Name="AddonList" ItemsSource="{Binding Addons}" IsReadOnly="False"
-						  AutoGenerateColumns="False" CanUserResizeColumns="True" CanUserReorderColumns="True"
-						   GridLinesVisibility="Vertical"
-						  CurrentCellChanged="DataGrid_CurrentCellChanged"
-						  BeginningEdit="DataGrid_BeginningEdit"
-						  CellEditEnded="DataGrid_CellEditEnded"
-						  DoubleTapped="AddonList_DoubleTapped">
-					<DataGrid.ContextMenu>
-						<ContextMenu>
-							<MenuItem Click="AddonList_Menu_LocateFile" Header="Locate file" />
-						</ContextMenu>
-					</DataGrid.ContextMenu>
-					<DataGrid.Columns>
-						<DataGridTextColumn Header=""  Width="0" />
-						<DataGridCheckBoxColumn Header="Enable" Binding="{Binding Enable}" Width="80" />
-						<DataGridTextColumn Header="Title" Binding="{Binding Title}" Width="360"/>
-						<DataGridTextColumn Header="Source" Binding="{Binding Source}" Width="auto"/>
-						<!--<DataGridTextColumn Header="File Name" Binding="{Binding FileName}" Width="256"/>-->
-						<DataGridTextColumn Header="Author" Binding="{Binding Author}" Width="100"/>
-						<DataGridTemplateColumn Header="Tag" Width="*" CanUserSort="true" SortMemberPath="TagsOrde">
-							<DataGridTemplateColumn.CellTemplate>
-								<DataTemplate>
-									<ItemsControl ItemsSource="{Binding Tags}">
-										<ItemsControl.ItemsPanel>
-											<ItemsPanelTemplate>
-												<WrapPanel VerticalAlignment="Center" Margin="4" Orientation="Horizontal"/>
-											</ItemsPanelTemplate>
-										</ItemsControl.ItemsPanel>
-										<ItemsControl.ItemTemplate>
-											<DataTemplate>
-												<Label Theme="{StaticResource TagLabel}"
-														Content="{Binding Name}"
-														Margin="1"
-														Classes.Ghost="{Binding !Enable}"
-														Loaded="AssetTag_Label_Loaded" />
-											</DataTemplate>
-										</ItemsControl.ItemTemplate>
-									</ItemsControl>
-								</DataTemplate>
-							</DataGridTemplateColumn.CellTemplate>
-						</DataGridTemplateColumn>
-					</DataGrid.Columns>
-				</DataGrid>
-				<GridSplitter Grid.Column="1" ResizeDirection="Columns"/>
-				<ScrollViewer Grid.Column="2" AllowAutoHide="True">
-					<StackPanel Orientation="Vertical" Name="AddonDetailPanel" IsVisible="False">
-						<Border Background="{StaticResource ThemeBackgroundBrush}" Margin="10">
-							<Image Name="AddonImage" MaxHeight="128" MinWidth="256"></Image>
-						</Border>
-						<Grid Margin="10" RowDefinitions="auto,auto,auto,auto,auto,auto,auto" ColumnDefinitions="*">
-							<Grid.Styles>
-								<Style Selector="TextBox.s1">
-									<Setter Property="FlowDirection" Value="LeftToRight"/>
-									<Setter Property="FontSize" Value="12"/>
-									<Setter Property="VerticalAlignment" Value="Center"/>
-									<Setter Property="Grid.Column" Value="0"/>
-									<Setter Property="Margin" Value="2"/>
-									<Setter Property="IsReadOnly" Value="True"/>
-								</Style>
-								<Style Selector="TextBlock">
-									<Setter Property="Grid.Column" Value="0"/>
-									<Setter Property="FontSize" Value="13"/>
-									<Setter Property="LineHeight" Value="16"/>
-									<Setter Property="VerticalAlignment" Value="Center"/>
-								</Style>
-							</Grid.Styles>
-							<TextBox Grid.Row="0" 
-									 InnerLeftContent="Title" 
-									 Text="{Binding #AddonList.SelectedItem.Title}" 
-									 Classes="s1 Small Bordered"
-									 IsVisible="{Binding #AddonList.SelectedItem.Title, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"/>
-							<TextBox Grid.Row="1" 
-									 InnerLeftContent="Version" 
-									 Text="{Binding #AddonList.SelectedItem.Version}" 
-									 Classes="s1 Small Bordered"
-									 IsVisible="{Binding #AddonList.SelectedItem.Version, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"/>
-							<TextBox Grid.Row="2" 
-									 InnerLeftContent="Author" 
-									 Text="{Binding #AddonList.SelectedItem.Author}" 
-									 Classes="s1 Small Bordered"
-									 IsVisible="{Binding #AddonList.SelectedItem.Author, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"/>
-							<TextBox Grid.Row="3" 
-									 InnerLeftContent="File" 
-									 Classes="s1 Small Bordered"
-									 Text="{Binding #AddonList.SelectedItem.FileName}" />
-							<TextBox Grid.Row="4" 
-									 Classes="TextArea" 
-									 Text="{Binding #AddonList.SelectedItem.Description}" 
-									 Padding="10 8" 
-									 Margin="2" 
-									 TextWrapping="WrapWithOverflow"
-									 IsVisible="{Binding #AddonList.SelectedItem.Description, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"/>
-							<StackPanel Grid.Row="5" IsVisible="True">
-								<ItemsControl ItemsSource="{Binding #AddonList.SelectedItem.Tags}" IsVisible="True">
+	<Grid RowDefinitions="auto,auto,*">
+		<Grid Grid.Row="0" Margin="13 10 10 10" ColumnDefinitions="*,auto,auto" VerticalAlignment="Center" HorizontalAlignment="Left">
+			<TextBox Grid.Column="0" Name="GameDir" Text="{Binding GameDir}" InnerLeftContent="GameDir" TextWrapping="NoWrap" Width="600" Height="32" IsUndoEnabled="True"></TextBox>
+			<Button Grid.Column="1" Click="Browser_Click" Classes="Tertiary" Height="32">...</Button>
+			<Button Grid.Column="2" Click="Button_Click" Classes="Primary" Theme="{DynamicResource SolidButton}" Height="32" Margin="20 0 0 0">Nya!</Button>
+		</Grid>
+		<Grid Grid.Row="1" Margin="13 0 10 10" ColumnDefinitions="*,auto,auto" VerticalAlignment="Center" HorizontalAlignment="Left">
+			<TextBox Grid.Column="0"
+					 Text="{Binding SearchKeywords}"
+					 InnerLeftContent="Search" 
+					 TextWrapping="NoWrap" 
+					 Width="600" 
+					 Height="32"
+					 IsUndoEnabled="True"
+					 KeyUp="TextBox_AddonSearch_KeyUp"
+					 TextChanged="TextBox_AddonSearch_TextChanged"/>
+			<!--<Button Grid.Column="1" 
+					Classes="Tertiary" 
+					Click="Button_AddonSearch_Click"
+					Height="32">Search</Button>-->
+		</Grid>
+		<Grid Grid.Row="2" ColumnDefinitions="*,auto,0.3*" RowDefinitions="*" MinHeight="360">
+			<DataGrid Grid.Column="0" 
+					  Name="AddonList"  
+					  IsReadOnly="False"
+					  AutoGenerateColumns="False"
+					  CanUserResizeColumns="True" 
+					  CanUserReorderColumns="True"
+					  GridLinesVisibility="Vertical"
+					  CurrentCellChanged="DataGrid_CurrentCellChanged"
+					  BeginningEdit="DataGrid_BeginningEdit"
+					  CellEditEnded="DataGrid_CellEditEnded"
+					  DoubleTapped="AddonList_DoubleTapped"
+					  ItemsSource="{Binding Addons}">
+				<DataGrid.ContextMenu>
+					<ContextMenu>
+						<MenuItem Click="AddonList_Menu_LocateFile" Header="Locate file" />
+					</ContextMenu>
+				</DataGrid.ContextMenu>
+				<DataGrid.Columns>
+					<DataGridTextColumn Header=""  Width="0" />
+					<DataGridCheckBoxColumn Header="Enable" 
+											Binding="{Binding Enable}" 
+											Width="80"/>
+					<DataGridTextColumn Header="Title" 
+										Binding="{Binding Title}" 
+										Width="360"/>
+					<DataGridTextColumn Header="Source" Binding="{Binding Source}" Width="auto"/>
+					<!--<DataGridTextColumn Header="File Name" Binding="{Binding FileName}" Width="256"/>-->
+					<DataGridTextColumn Header="Author" Binding="{Binding Author}" Width="100"/>
+					<DataGridTemplateColumn Header="Tag" Width="*" CanUserSort="true" SortMemberPath="TagsOrde">
+						<DataGridTemplateColumn.CellTemplate>
+							<DataTemplate>
+								<ItemsControl ItemsSource="{Binding Tags}">
 									<ItemsControl.ItemsPanel>
 										<ItemsPanelTemplate>
-											<WrapPanel VerticalAlignment="Center" Orientation="Horizontal">
-											</WrapPanel>
+											<WrapPanel VerticalAlignment="Center" Margin="4" Orientation="Horizontal"/>
 										</ItemsPanelTemplate>
 									</ItemsControl.ItemsPanel>
 									<ItemsControl.ItemTemplate>
 										<DataTemplate>
 											<Label Theme="{StaticResource TagLabel}"
-												   Content="{Binding Name}"
-												   Margin="2"
-												   Classes="Large"
-												   Classes.Ghost="{Binding !Enable}"
-												   Loaded="AssetTag_Label_Loaded"
-												   Tapped="AssetTag_Tapped"/>
+													Content="{Binding Name}"
+													Margin="1"
+													Classes.Ghost="{Binding !Enable}"
+													Loaded="AssetTag_Label_Loaded" />
 										</DataTemplate>
 									</ItemsControl.ItemTemplate>
 								</ItemsControl>
-								<Grid IsVisible="True" Name="AssetTagModifiedPanel" ColumnDefinitions="*,*" Margin="2">
-									<Button Grid.Column="0" Classes="Danger" 
-											HorizontalAlignment="Stretch" 
-											Margin="0 0 1 0"
-											Click="Button_AssetTagModifiedPanel_Apply">Apply</Button>
-									<Button Grid.Column="1" Classes="Secondary" 
-											HorizontalAlignment="Stretch" 
-											Margin="1 0 0 0"
-											Click="Button_AssetTagModifiedPanel_Cancel" >Cancel</Button>
-								</Grid>
-							</StackPanel>
-							<Panel Grid.Row="6"
-									VerticalAlignment="Bottom"
-									HorizontalAlignment="Center"
-									Margin="3"
-									IsVisible="{Binding #AddonList.SelectedItem.Url, Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
-								<HyperlinkButton
-									Margin="0"
-									Padding="0"
-									BorderThickness="1"
-									Height="5"
-									NavigateUri="{Binding #AddonList.SelectedItem.Url}">
-									<TextBlock
-										HorizontalAlignment="Left"
-										Text="{Binding #AddonList.SelectedItem.Url}"
-										TextDecorations="Underline"
-										TextWrapping="NoWrap"
-										VerticalAlignment="Bottom" />
-								</HyperlinkButton>
-							</Panel>
-						</Grid>
-					</StackPanel>
-				</ScrollViewer>
-			</Grid>
-	  </Grid>
+							</DataTemplate>
+						</DataGridTemplateColumn.CellTemplate>
+					</DataGridTemplateColumn>
+				
+				</DataGrid.Columns>
+			</DataGrid>
+			<GridSplitter Grid.Column="1" ResizeDirection="Columns"/>
+			<ScrollViewer Grid.Column="2" AllowAutoHide="True">
+				<StackPanel Orientation="Vertical" Name="AddonDetailPanel" IsVisible="False">
+					<Border Background="{StaticResource ThemeBackgroundBrush}" Margin="10">
+						<Image Name="AddonImage" MaxHeight="128" MinWidth="256"></Image>
+					</Border>
+					<Grid Margin="10" RowDefinitions="auto,auto,auto,auto,auto,auto,auto" ColumnDefinitions="*">
+						<Grid.Styles>
+							<Style Selector="TextBox.s1">
+								<Setter Property="FlowDirection" Value="LeftToRight"/>
+								<Setter Property="FontSize" Value="12"/>
+								<Setter Property="VerticalAlignment" Value="Center"/>
+								<Setter Property="Grid.Column" Value="0"/>
+								<Setter Property="Margin" Value="2"/>
+								<Setter Property="IsReadOnly" Value="True"/>
+							</Style>
+							<Style Selector="TextBlock">
+								<Setter Property="Grid.Column" Value="0"/>
+								<Setter Property="FontSize" Value="13"/>
+								<Setter Property="LineHeight" Value="16"/>
+								<Setter Property="VerticalAlignment" Value="Center"/>
+							</Style>
+						</Grid.Styles>
+						<TextBox Grid.Row="0" 
+									InnerLeftContent="Title" 
+									Text="{Binding #AddonList.SelectedItem.Title}" 
+									Classes="s1 Small Bordered"
+									IsVisible="{Binding #AddonList.SelectedItem.Title, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"/>
+						<TextBox Grid.Row="1" 
+									InnerLeftContent="Version" 
+									Text="{Binding #AddonList.SelectedItem.Version}" 
+									Classes="s1 Small Bordered"
+									IsVisible="{Binding #AddonList.SelectedItem.Version, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"/>
+						<TextBox Grid.Row="2" 
+									InnerLeftContent="Author" 
+									Text="{Binding #AddonList.SelectedItem.Author}" 
+									Classes="s1 Small Bordered"
+									IsVisible="{Binding #AddonList.SelectedItem.Author, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"/>
+						<TextBox Grid.Row="3" 
+									InnerLeftContent="File" 
+									Classes="s1 Small Bordered"
+									Text="{Binding #AddonList.SelectedItem.FileName}" />
+						<TextBox Grid.Row="4" 
+									Classes="TextArea" 
+									Text="{Binding #AddonList.SelectedItem.Description}" 
+									Padding="10 8" 
+									Margin="2" 
+									TextWrapping="WrapWithOverflow"
+									IsVisible="{Binding #AddonList.SelectedItem.Description, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"/>
+						<StackPanel Grid.Row="5" IsVisible="True">
+							<ItemsControl ItemsSource="{Binding #AddonList.SelectedItem.Tags}" IsVisible="True">
+								<ItemsControl.ItemsPanel>
+									<ItemsPanelTemplate>
+										<WrapPanel VerticalAlignment="Center" Orientation="Horizontal">
+										</WrapPanel>
+									</ItemsPanelTemplate>
+								</ItemsControl.ItemsPanel>
+								<ItemsControl.ItemTemplate>
+									<DataTemplate>
+										<Label Theme="{StaticResource TagLabel}"
+												Content="{Binding Name}"
+												Margin="2"
+												Classes="Large"
+												Classes.Ghost="{Binding !Enable}"
+												Loaded="AssetTag_Label_Loaded"
+												Tapped="AssetTag_Tapped"/>
+									</DataTemplate>
+								</ItemsControl.ItemTemplate>
+							</ItemsControl>
+							<Grid IsVisible="True" Name="AssetTagModifiedPanel" ColumnDefinitions="*,*" Margin="2">
+								<Button Grid.Column="0" Classes="Danger" 
+										HorizontalAlignment="Stretch" 
+										Margin="0 0 1 0"
+										Click="Button_AssetTagModifiedPanel_Apply">Apply</Button>
+								<Button Grid.Column="1" Classes="Secondary" 
+										HorizontalAlignment="Stretch" 
+										Margin="1 0 0 0"
+										Click="Button_AssetTagModifiedPanel_Cancel" >Cancel</Button>
+							</Grid>
+						</StackPanel>
+						<Panel Grid.Row="6"
+								VerticalAlignment="Bottom"
+								HorizontalAlignment="Center"
+								Margin="3"
+								IsVisible="{Binding #AddonList.SelectedItem.Url, Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
+							<HyperlinkButton
+								Margin="0"
+								Padding="0"
+								BorderThickness="1"
+								Height="5"
+								NavigateUri="{Binding #AddonList.SelectedItem.Url}">
+								<TextBlock
+									HorizontalAlignment="Left"
+									Text="{Binding #AddonList.SelectedItem.Url}"
+									TextDecorations="Underline"
+									TextWrapping="NoWrap"
+									VerticalAlignment="Bottom" />
+							</HyperlinkButton>
+						</Panel>
+					</Grid>
+				</StackPanel>
+			</ScrollViewer>
+		</Grid>
+	</Grid>
 
 </UserControl>
