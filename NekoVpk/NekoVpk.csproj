@@ -23,14 +23,11 @@
     <PackageReference Include="Avalonia" Version="11.1.0-beta1" />
     <PackageReference Include="Avalonia.Controls.DataGrid" Version="11.1.0-beta1" />
     <PackageReference Include="Avalonia.ReactiveUI" Version="11.0.10" />
-    <PackageReference Include="Avalonia.Themes.Fluent" Version="11.0.10" />
     <PackageReference Include="Avalonia.Fonts.Inter" Version="11.0.10" />
 
     <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
     <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.0.10" />
     <PackageReference Include="DotNet.Glob" Version="3.1.3" />
-    <PackageReference Include="DynamicData" Version="8.4.1" />
-    <PackageReference Include="Gameloop.Vdf" Version="0.6.2" />
     <PackageReference Include="MessageBox.Avalonia" Version="3.1.5.1" />
     <PackageReference Include="Narod.SteamGameFinder" Version="1.0.1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />

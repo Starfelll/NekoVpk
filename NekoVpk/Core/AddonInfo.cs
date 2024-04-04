@@ -1,5 +1,4 @@
 ﻿using Avalonia.Controls.Chrome;
-using Gameloop.Vdf.Linq;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;

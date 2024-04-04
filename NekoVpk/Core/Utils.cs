@@ -1,6 +1,4 @@
-﻿using Gameloop.Vdf;
-using Gameloop.Vdf.Linq;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
