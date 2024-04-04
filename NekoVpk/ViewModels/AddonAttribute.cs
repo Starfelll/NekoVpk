@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.IO;
 using SteamDatabase.ValvePak;
-using NekoVpk.ViewModels;
 using ReactiveUI;
+using NekoVpk.Core;
 
-namespace NekoVpk.Core
+namespace NekoVpk.ViewModels
 {
     public enum AddonSource
     {
@@ -25,9 +25,11 @@ namespace NekoVpk.Core
 
         protected bool? _Enabled;
 
-        public bool? Enable { 
+        public bool? Enable
+        {
             get => _Enabled;
-            set {
+            set
+            {
                 if (_Enabled != value)
                 {
                     _Enabled = value;
@@ -45,7 +47,8 @@ namespace NekoVpk.Core
         public string? Author { get => AddonInfo.Author; }
         public string? Description { get => AddonInfo.Description; }
 
-        public string? Url { 
+        public string? Url
+        {
             get
             {
                 if (Source == AddonSource.WorkShop)
@@ -62,7 +65,7 @@ namespace NekoVpk.Core
             {
                 string result = "";
 
-                foreach(var tag in Tags)
+                foreach (var tag in Tags)
                 {
                     result += tag.Name;
                 }
@@ -72,7 +75,8 @@ namespace NekoVpk.Core
 
         public AssetTag[] Tags { get; set; } = [];
 
-        public AddonAttribute(bool? enable, string fileName, AddonSource source, AddonInfo addonInfo) {
+        public AddonAttribute(bool? enable, string fileName, AddonSource source, AddonInfo addonInfo)
+        {
             _Enabled = enable;
             FileName = fileName;
             Source = source;
@@ -83,7 +87,8 @@ namespace NekoVpk.Core
         {
             string path = Path.Join(gameDir, "addons");
 
-            if (Source == AddonSource.WorkShop) {
+            if (Source == AddonSource.WorkShop)
+            {
                 path = Path.Join(path, "workshop");
             }
 
