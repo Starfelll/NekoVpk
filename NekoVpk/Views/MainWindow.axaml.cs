@@ -11,6 +11,7 @@ public partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
+        Title = $"NekoVpk {App.Version}{App.VersionSuffix}    bilibili@Starfelll";
         if (Background is SolidColorBrush brush)
         {
             if (ActualTransparencyLevel == WindowTransparencyLevel.AcrylicBlur || ActualTransparencyLevel == WindowTransparencyLevel.Blur)

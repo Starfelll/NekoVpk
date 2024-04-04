@@ -5,13 +5,16 @@ using Avalonia.Markup.Xaml;
 
 using NekoVpk.ViewModels;
 using NekoVpk.Views;
-using System.Diagnostics;
 
 namespace NekoVpk;
 
 public partial class App : Application
 {
     public static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+
+    public const string Version = "0.7.0.0";
+
+    public const string VersionSuffix = "-Beta";
 
     public override void Initialize()
     {
