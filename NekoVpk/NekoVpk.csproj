@@ -27,13 +27,13 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="NLog" Version="5.2.8" />
     <PackageReference Include="OSVersionExt" Version="3.0.0" />
+    <PackageReference Include="Semi.Avalonia" Version="11.1.0-beta1.1" />
+    <PackageReference Include="Semi.Avalonia.DataGrid" Version="11.1.0-beta1.1" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="8.0.0" />
     <PackageReference Include="UTF.Unknown" Version="2.5.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Semi.Avalonia\src\Semi.Avalonia.DataGrid\Semi.Avalonia.DataGrid.csproj" />
-    <ProjectReference Include="..\..\..\Semi.Avalonia\src\Semi.Avalonia\Semi.Avalonia.csproj" />
     <ProjectReference Include="..\..\ValveKeyValue\ValveKeyValue\ValveKeyValue\ValveKeyValue.csproj" />
     <ProjectReference Include="..\..\ValvePak\ValvePak\ValvePak\ValvePak.csproj" />
   </ItemGroup>
