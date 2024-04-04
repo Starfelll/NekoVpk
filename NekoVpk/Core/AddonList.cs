@@ -6,59 +6,63 @@ using System.Text;
 using System.Threading.Tasks;
 
 using UtfUnknown;
-using Gameloop.Vdf;
-using Gameloop.Vdf.Linq;
 using ValveKeyValue;
 using System.Globalization;
+
 
 namespace NekoVpk.Core
 {
     public class AddonList
     {
-        protected Dictionary<string, int> KeyValue = [];
+        KVDocument KeyValue;
 
-        protected Encoding SrcEncoding = Encoding.Default;
+        readonly KVSerializerOptions SerializerOptions;
+        KVCollectionValue Collection { get => (KVCollectionValue)KeyValue.Value; }
+
+        public AddonList()
+        {
+            SerializerOptions = new KVSerializerOptions
+            {
+                HasEscapeSequences = false,
+            };
+            KeyValue = new("AddonList", new KVCollectionValue());
+        }
 
         public void Load(string gameDir)
         {
             FileInfo file = GetFileInfo(gameDir);
             if (file.Exists)
             {
-                byte[] buffer = new byte[file.Length];
-                var stream = file.OpenRead();
-                stream.Read(buffer);
-                stream.Dispose();
+                FileStream stream = file.OpenRead();
+
+                SerializerOptions.Encoding = CharsetDetector.DetectFromStream(stream).Detected.Encoding;
+                stream.Position = 0;
 
                 var kvs = KVSerializer.Create(KVSerializationFormat.KeyValues1Text);
 
-                SrcEncoding = Utils.MakeSureCharsetIsDefault(ref buffer);
-                var deserialized = kvs.Deserialize(new MemoryStream(buffer));
+                var deserialized = kvs.Deserialize(stream, SerializerOptions);
 
-                if (deserialized != null && deserialized.Name.Equals("AddonList", StringComparison.OrdinalIgnoreCase))
+                if (deserialized != null 
+                    && deserialized.Name.Equals("AddonList", StringComparison.OrdinalIgnoreCase) 
+                    && deserialized.Value is KVCollectionValue)
                 {
-                    KeyValue.Clear();
-                    foreach (var v in deserialized)
-                    {
-                        if (v.Value != null)
-                        {
-                            KeyValue.Add(v.Name, v.Value.ToInt32(CultureInfo.CurrentCulture));
-                        }
-                    }
+                    KeyValue = deserialized;
                 }
-                
+
             }
         }
 
         public void SetEnable(string fileName, bool enable = true)
         {
-            KeyValue[fileName] = enable ? 1 : 0;
+            Collection.Set(fileName, enable ? 1:0);
         }
 
         public bool? IsEnabled(string fileName)
         {
-            if (KeyValue.TryGetValue(fileName, out int value))
+            KVValue? val = Collection[fileName];
+            if (val != null)
             {
-                return value == 1;
+                return val.ToInt32(CultureInfo.CurrentCulture) == 1;
             }
             return null;
         }
@@ -66,15 +70,11 @@ namespace NekoVpk.Core
         public void Save(string gameDir)
         {
             var file = GetFileInfo(gameDir);
-            StreamWriter writer = new(file.FullName, false, SrcEncoding);
+            var kvs = KVSerializer.Create(KVSerializationFormat.KeyValues1Text);
+            var writeStream = file.Open(FileMode.Open);
 
-            writer.WriteLine("\"AddonList\"\n{");
-            foreach(var v in KeyValue)
-            {
-                writer.WriteLine($"\t\"{v.Key}\"\t\"{v.Value}\"");
-            }
-            writer.WriteLine("}");
-            writer.Close();
+            kvs.Serialize(writeStream, KeyValue, SerializerOptions);
+            writeStream.Close();
         }
 
         protected static FileInfo GetFileInfo(string gameDir) => new(Path.Join(gameDir, "addonlist.txt"));

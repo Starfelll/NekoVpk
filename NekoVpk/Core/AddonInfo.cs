@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ValveKeyValue;
+using UtfUnknown;
 
 namespace NekoVpk.Core
 {
@@ -30,9 +31,16 @@ namespace NekoVpk.Core
 
         public static AddonInfo Load(byte[] data)
         {
-            Utils.MakeSureCharsetIsDefault(ref data);
+            var charset = CharsetDetector.DetectFromBytes(data);
+            KVSerializerOptions options = new()
+            {
+                HasEscapeSequences = true,
+                Encoding = charset.Detected.Encoding
+            };
+
             var kvs = KVSerializer.Create(KVSerializationFormat.KeyValues1Text);
-            return kvs.Deserialize<AddonInfo>(new MemoryStream(data));
+
+            return kvs.Deserialize<AddonInfo>(new MemoryStream(data), options);
         }
     }
 }
