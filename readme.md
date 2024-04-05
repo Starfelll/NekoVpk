@@ -1,6 +1,5 @@
-<center>
-    <img src="https://github.com/Starfelll/NekoVpk/blob/main/image/NekoVpk-256.png" alt="NekoVpk icon">
-</center>
+
+<img src="https://github.com/Starfelll/NekoVpk/blob/main/image/NekoVpk-256.png" alt="NekoVpk icon" align="center">
 
 ## changelog
 
