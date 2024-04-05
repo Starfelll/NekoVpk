@@ -5,14 +5,21 @@
   NekoVpk
   <br>
 </h1>
+<h4 align="center">🧰 Left4Dead2 addon manager </h4>
+<h1 align="center">
+  <img src="https://github.com/Starfelll/NekoVpk/blob/main/image/%7B92AF4B24-ECB7-4f37-A7EF-2452A7E1151B%7D.png" width="800">
+</h1>
 
-<h4 align="center">Left4Dead2 addon manager</h4>
+## 🐈feature
+* Intelligently identify tags based on addon content
+* Keyword search
+* Read addoninfo
+* Enable or disable addon
+* Disable certain content in the addon, which is useful for survivor mods.
+* ![](https://github.com/Starfelll/NekoVpk/blob/main/image/%7B5B7F3754-AEAB-478f-90C3-D0D2934D8D8A%7D.png)
 
-## Screenshot
-<img src="https://github.com/Starfelll/NekoVpk/blob/main/image/%7B92AF4B24-ECB7-4f37-A7EF-2452A7E1151B%7D.png">
 
 ## changelog
-
 #### v0.0.7.1
 - TaggedAssets.jsonc add tags: particle,sound,spr,xdr,skybox
 - Identify the vpk with a numeric file name as the workshop id
