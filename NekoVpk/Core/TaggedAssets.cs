@@ -12,7 +12,6 @@ namespace NekoVpk.Core
 {
     public static class TaggedAssets
     {
-        //public static Dictionary<string, int> GlobTagMap { get; } = [];
         public static List<AssetTagProperty> Tags { get; } = [];
 
         public static void Load()

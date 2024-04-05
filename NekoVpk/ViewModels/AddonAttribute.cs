@@ -46,18 +46,21 @@ namespace NekoVpk.ViewModels
         public string? Version { get => AddonInfo.Version; }
         public string? Author { get => AddonInfo.Author; }
         public string? Description { get => AddonInfo.Description; }
-
         public string? Url
         {
             get
             {
-                if (Source == AddonSource.WorkShop)
+                if (!string.IsNullOrEmpty(WorkShopID))
                 {
-                    return @"https://steamcommunity.com/sharedfiles/filedetails/?id=" + Path.ChangeExtension(FileName, "");
+                    return @"https://steamcommunity.com/sharedfiles/filedetails/?id=" + WorkShopID;
                 }
                 return AddonInfo.Url0;
             }
         }
+
+        public string? WorkShopID;
+
+        public bool IsSubscribed => Source == AddonSource.WorkShop;
 
         public string TagsOrde
         {

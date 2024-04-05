@@ -12,6 +12,7 @@ using Narod.SteamGameFinder;
 using ReactiveUI;
 using Avalonia.Collections;
 using DynamicData;
+using System.Diagnostics;
 
 namespace NekoVpk.ViewModels;
 
@@ -149,8 +150,20 @@ public partial class MainViewModel : ViewModelBase
                 }
             }
             addonInfo ??= new();
-            _addonList.Add(new(addonEnabled, fileInfo.Name, addonSource, addonInfo));
-            _addonList.Last().Tags = tags.ToArray();
+            AddonAttribute newItem = new(addonEnabled, fileInfo.Name, addonSource, addonInfo);
+
+            tags.Reverse();
+            newItem.Tags = [.. tags];
+
+
+            var baseName = Path.ChangeExtension(fileInfo.Name, null);
+            if (newItem.IsSubscribed || baseName.All(char.IsDigit))
+            {
+                newItem.WorkShopID = baseName;
+            }
+
+
+            _addonList.Add(newItem);
         }
         Addons.Refresh();
     }
@@ -163,9 +176,9 @@ public partial class MainViewModel : ViewModelBase
         }
         if (obj is AddonAttribute att)
         {
-            var tmpStrs = new List<string>(SearchKeywords.Split(' ', StringSplitOptions.RemoveEmptyEntries));
+            var keywordList = new List<string>(SearchKeywords.Split(' ', StringSplitOptions.RemoveEmptyEntries));
             int match = 0;
-            foreach (var str in tmpStrs)
+            foreach (var str in keywordList)
             {
                 foreach(var tag in att.Tags)
                 {
@@ -175,22 +188,22 @@ public partial class MainViewModel : ViewModelBase
                     } 
                 }
 
+                if (match == keywordList.Count) return true;
                 if (att.Title.Contains(str, StringComparison.OrdinalIgnoreCase))
                 {
                     match++; continue;
                 }
-                    
-                if (att.Author is not null && att.Author.Contains(str, StringComparison.OrdinalIgnoreCase))
+
+                if (match == keywordList.Count) return true;
+                if (att.Author is not null 
+                    && att.Author.Contains(str, StringComparison.OrdinalIgnoreCase))
                 {
                     match++; continue;
                 }
             }
 
-            if (match == tmpStrs.Count)
-            {
-                return true;
-            }
-            
+            if (match == keywordList.Count) return true;
+
         }
         return false;
     }
