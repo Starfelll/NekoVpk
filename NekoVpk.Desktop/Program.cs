@@ -38,7 +38,9 @@ class Program
 
     private static void OnStartup(object? sender, ControlledApplicationLifetimeStartupEventArgs e)
     {
+#if !DEBUG
         CheckUpdate();
+#endif
     }
 
     // Avalonia configuration, don't remove; also used by visual designer.

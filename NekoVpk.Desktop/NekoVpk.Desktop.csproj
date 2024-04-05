@@ -11,9 +11,11 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
+    <DebugType>full</DebugType>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
+    <DebugType>full</DebugType>
   </PropertyGroup>
   <ItemGroup>
     <None Remove="NekoVpk.ico" />
