@@ -152,21 +152,21 @@
     //     "files": [
     //         "scripts/**"
     //     ]
-    // },
-    // "particle": {
-    //     "color": "Orange",
-    //     "translate": {},
-    //     "files": [
-    //         "particles/**"
-    //     ]
-    // },
-    // "sound": {
-    //     "color": "Red",
-    //     "translate": {},
-    //     "files": [
-    //         "sound/**"
-    //     ]
-    // },
+    // }
+    ,"particle": {
+        "color": "Orange",
+        "translate": {},
+        "files": [
+            "particles/**"
+        ]
+    }
+    ,"sound": {
+        "color": "Red",
+        "translate": {},
+        "files": [
+            "sound/**"
+        ]
+    }
     // "melee": {
     //     "color": "Grey",
     //     "translate": {},
@@ -174,4 +174,29 @@
     //         "models/weapons/melee/**"
     //     ]
     // }
+    ,"spr": {
+        "color": "Red",
+        "translate": {},
+        "files": [
+            "models/spb/reanims/**"
+        ]
+    }
+    ,"xdr": {
+        "color": "Pink",
+        "translate": {},
+        "files": [
+            "models/xdreanims/**"
+        ]
+    }
+    ,"skybox": {
+        "color": "Purple",
+        "translate": {},
+        "files": [
+            "materials/skybox/**"
+        ]
+    }
 }
+//"Red", "Pink", "Purple", "Violet", "Indigo",
+//"Blue", "LightBlue", "Cyan", "Teal", "Green",
+//"LightGreen", "Lime", "Yellow", "Amber", "Orange",
+//"Grey"
