@@ -38,9 +38,7 @@ class Program
 
     private static void OnStartup(object? sender, ControlledApplicationLifetimeStartupEventArgs e)
     {
-#if !DEBUG
         CheckUpdate();
-#endif
     }
 
     // Avalonia configuration, don't remove; also used by visual designer.
@@ -54,6 +52,7 @@ class Program
     {
 #if DEBUG
         //AutoUpdater.AppCastURL = @"https://raw.githubusercontent.com/Starfelll/NekoVpk_release/main/AppUpdate.xml";
+        return;
 #else
         AutoUpdater.AppCastURL = @"https://raw.githubusercontent.com/Starfelll/NekoVpk/main/AppUpdate.xml";
 #endif

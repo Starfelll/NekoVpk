@@ -1,3 +1,7 @@
+<center>
+    <img src="https://github.com/Starfelll/NekoVpk/blob/main/image/NekoVpk-256.png" alt="NekoVpk icon">
+</center>
+
 ## changelog
 
 #### v0.0.7.1
