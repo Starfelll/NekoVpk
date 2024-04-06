@@ -71,7 +71,7 @@ namespace NekoVpk.Core
         {
             var file = GetFileInfo(gameDir);
             var kvs = KVSerializer.Create(KVSerializationFormat.KeyValues1Text);
-            var writeStream = file.Open(FileMode.Open);
+            var writeStream = file.Open(FileMode.Truncate);
 
             kvs.Serialize(writeStream, KeyValue, SerializerOptions);
             writeStream.Close();
