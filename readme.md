@@ -20,6 +20,11 @@
 
 
 ## changelog
+#### v0.0.8
+- Supports searching file names.
+- During the scanning process, the workshop directory is no longer required.
+- Close the file handle after reading the image.
+- TaggedAssets.jsonc: added weapon-related tags.
 #### v0.0.7.1
 - TaggedAssets.jsonc add tags: particle,sound,spr,xdr,skybox
 - Identify the vpk with a numeric file name as the workshop id
