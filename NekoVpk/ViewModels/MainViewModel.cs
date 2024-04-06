@@ -69,7 +69,7 @@ public partial class MainViewModel : ViewModelBase
         var addonDir = new DirectoryInfo(Path.Join(GameDir, "addons"));
         var workshopDir = new DirectoryInfo(Path.Join(GameDir, "addons", "workshop"));
 
-        if (!addonDir.Exists || !workshopDir.Exists)
+        if (!addonDir.Exists)
         {
             var box = MessageBoxManager.GetMessageBoxStandard(
                 "Failed",
@@ -81,7 +81,8 @@ public partial class MainViewModel : ViewModelBase
 
 
         var files = addonDir.GetFiles("*.vpk").ToList();
-        files.AddRange(workshopDir.GetFiles("*.vpk"));
+        if (addonDir.Exists)
+            files.AddRange(workshopDir.GetFiles("*.vpk"));
 
         AddonList addonList = new();
         try
