@@ -7,7 +7,7 @@
     <Nullable>enable</Nullable>
     <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
     <ApplicationManifest>app.manifest</ApplicationManifest>
-    <ApplicationIcon>NekoVpk.ico</ApplicationIcon>
+    <ApplicationIcon>Resources\NekoVpk.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
@@ -21,7 +21,10 @@
     <None Remove="NekoVpk.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="NekoVpk.ico">
+    <Content Include="Resources\NekoVpk.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\NekoVpk.ico">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
