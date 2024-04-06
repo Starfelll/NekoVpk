@@ -188,13 +188,13 @@ public partial class MainViewModel : ViewModelBase
                     } 
                 }
 
-                if (match == keywordList.Count) return true;
+                if (match >= keywordList.Count) return true;
                 if (att.Title.Contains(str, StringComparison.OrdinalIgnoreCase))
                 {
                     match++; continue;
                 }
 
-                if (match == keywordList.Count) return true;
+                if (match >= keywordList.Count) return true;
                 if (att.Author is not null 
                     && att.Author.Contains(str, StringComparison.OrdinalIgnoreCase))
                 {
@@ -202,7 +202,7 @@ public partial class MainViewModel : ViewModelBase
                 }
             }
 
-            if (match == keywordList.Count) return true;
+            if (match >= keywordList.Count) return true;
 
         }
         return false;
