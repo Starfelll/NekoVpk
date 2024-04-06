@@ -12,7 +12,7 @@ public partial class App : Application
 {
     public static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
-    public const string Version = "0.0.7.1";
+    public const string Version = "0.0.7.3";
 
     public const string VersionSuffix = "-Beta";
 
@@ -26,6 +26,8 @@ public partial class App : Application
         // Line below is needed to remove Avalonia data validation.
         // Without this line you will get duplicate validations from both Avalonia and CT
         BindingPlugins.DataValidators.RemoveAt(0);
+
+        //Lang.Resources.Culture = new CultureInfo("en");
 
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {

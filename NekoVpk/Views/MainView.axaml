@@ -3,9 +3,11 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:NekoVpk.ViewModels"
+			 xmlns:lang="clr-namespace:NekoVpk.Lang"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="NekoVpk.Views.MainView"
-             x:DataType="vm:MainViewModel">
+             x:DataType="vm:MainViewModel"
+			 >
   <Design.DataContext>
     <!-- This only sets the DataContext for the previewer in an IDE,
          to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
@@ -15,7 +17,7 @@
 		<Grid Grid.Row="0" Margin="13 10 10 10" ColumnDefinitions="*,auto,auto" VerticalAlignment="Center" HorizontalAlignment="Left">
 			<TextBox Grid.Column="0" Name="GameDir" Text="{Binding GameDir}" InnerLeftContent="GameDir" TextWrapping="NoWrap" Width="600" Height="32" IsUndoEnabled="True"></TextBox>
 			<Button Grid.Column="1" Click="Browser_Click" Classes="Tertiary" Height="32">...</Button>
-			<Button Grid.Column="2" Click="Button_Click" Classes="Primary" Theme="{DynamicResource SolidButton}" Height="32" Margin="20 0 0 0">Nya!</Button>
+			<Button Grid.Column="2" Click="Button_Click" Classes="Primary" Theme="{DynamicResource SolidButton}" Height="32" Margin="20 0 0 0" Content="{x:Static lang:Resources.Scan}"/>
 		</Grid>
 		<Grid Grid.Row="1" Margin="13 0 10 10" ColumnDefinitions="*,auto,auto" VerticalAlignment="Center" HorizontalAlignment="Left">
 			<TextBox Grid.Column="0"
