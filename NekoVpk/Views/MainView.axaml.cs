@@ -49,7 +49,9 @@ public partial class MainView : UserControl
                 FileInfo jpg = new(Path.ChangeExtension(att.GetAbsolutePath(GameDir.Text), "jpg"));
                 if (jpg.Exists)
                 {
-                    AddonImage.Source = Bitmap.DecodeToHeight(jpg.OpenRead(), 128);
+                    var fileStream = jpg.OpenRead();
+                    AddonImage.Source = Bitmap.DecodeToHeight(fileStream, 128);
+                    fileStream.Close();
                 }
                 else
                 {
