@@ -201,6 +201,12 @@ public partial class MainViewModel : ViewModelBase
                 {
                     match++; continue;
                 }
+
+                if (match >= keywordList.Count) return true;
+                if (att.FileName.Contains(str, StringComparison.OrdinalIgnoreCase))
+                {
+                    match++; continue;
+                }
             }
 
             if (match >= keywordList.Count) return true;
