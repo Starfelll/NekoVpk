@@ -35,7 +35,7 @@ namespace NekoVpk.Core
                     {
                         foreach (var glob in array)
                         {
-                            globs.Add(Glob.Parse(glob.ToString()));
+                            globs.Add(Glob.Parse(glob.ToString().ToLower()));
                         }
                     }
 
