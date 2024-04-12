@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Diagnostics;
 using Avalonia.Threading;
+using SevenZip;
 
 namespace NekoVpk.Views;
 
@@ -205,6 +206,9 @@ public partial class MainView : UserControl
                 case "nick":
                 case "rochelle":
                 case "zoey":
+                case "bill_deathpose":
+                case "francis_light":
+                case "zoey_light":
                     break;
                 default:
                     return;
@@ -221,77 +225,150 @@ public partial class MainView : UserControl
     private void Button_AssetTagModifiedPanel_Apply(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
 
-        if (AddonList.SelectedItem is AddonAttribute att)
+        if (AddonList.SelectedItem is AddonAttribute att && DataContext is MainViewModel vm)
         {
-            Package pkg = att.LoadPackage(GameDir.Text);
-
-            string? nekoDir = null;
-            foreach (var entry in pkg.Entries)
+            Package? pkg = null;
+            try
             {
-                foreach (var f in entry.Value)
-                {
-                    if (f.IsNekoDir(out nekoDir)) break;
-                }
-            }
-            if (nekoDir is null || nekoDir.Length == 0)
-                nekoDir = pkg.GenNekoDir();
+                pkg = att.LoadPackage(vm.GameDir);
+                DirectoryInfo tmpDir = new (pkg.FileName + "_nekotmp");
 
+                if (tmpDir.Exists)
+                    tmpDir.Delete(true);
+                tmpDir.Create();
+                tmpDir.Attributes |= FileAttributes.Hidden;
 
-            List<KeyValuePair<PackageEntry, string>> modified = [];
-            foreach (var entry in pkg.Entries)
-            {
-                foreach (var f in entry.Value)
+                SevenZipExtractor? extractor = null;
+                MemoryStream? zipStream = null;
+
+                // find neko7z
+                foreach (var entry in pkg.Entries)
                 {
-                    foreach (var tag in ModifiedAssetTags.Keys)
+                    if (entry.Key == "neko7z" && entry.Value[0].FileName == "0")
                     {
-                        string? dstPath = null;
-                        if (!tag.Proporty.IsMatch(f, out dstPath, ref nekoDir)) continue;
+                        zipStream = pkg.ReadEntry(entry.Value[0]);
+                        extractor = new SevenZipExtractor(zipStream);
+                        pkg.RemoveFile(entry.Value[0]);
+                        break;
+                    }
+                }
 
-                        if (!tag.Enable)
+                List<string> vpkFiles = [];
+                Dictionary<string, string> neko7zFiles = [];
+
+
+                if (extractor is not null)
+                {
+                    foreach (var zipFile in extractor.ArchiveFileData)
+                    {
+                        if (zipFile.IsDirectory) continue;
+                        bool isEnable = false;
+                        foreach (var tag in ModifiedAssetTags.Keys)
                         {
-                            dstPath = nekoDir + dstPath;
+                            if (tag.Enable && tag.Proporty.IsMatch(zipFile.FileName))
+                            {
+                                isEnable = true;
+                                break;
+                            }
                         }
-
-                        if (dstPath != null && pkg.FindEntry(dstPath) is null)
+                        if (isEnable)
+                            vpkFiles.Add(zipFile.FileName);
+                        else
+                            neko7zFiles.Add(zipFile.FileName, Path.Join(tmpDir.FullName, zipFile.FileName));
+                    }
+                }
+                List<PackageEntry> disableEntries = [];
+                foreach (var entry in pkg.Entries)
+                {
+                    foreach (var f in entry.Value)
+                    {
+                        foreach (var tag in ModifiedAssetTags.Keys)
                         {
-                            modified.Add(new(f, dstPath));
+                            if (!tag.Enable && tag.Proporty.IsMatch(f.GetFullPath()))
+                            {
+                                disableEntries.Add(f);
+                                break;
+                            }
                         }
                     }
                 }
-            }
-            
 
-            foreach (var mod in modified)
-            {
-                if (pkg.FindEntry(mod.Value) is null)
+
+
+                extractor?.ExtractArchive(tmpDir.FullName);
+                foreach (var entry in disableEntries)
                 {
-                    pkg.ReadEntry(mod.Key, out byte[] data);
-                    if (pkg.RemoveFile(mod.Key))
-                        pkg.AddFile(mod.Value, data);
+                    FileInfo outFile = new (Path.Join(tmpDir.FullName, entry.GetFullPath()));
+                    entry.ExtratFile(outFile, pkg);
+                    neko7zFiles.Add(entry.GetFullPath(), outFile.FullName);
+                    pkg.RemoveFile(entry);
                 }
-            }
-            modified.Clear();
+                foreach (var v in vpkFiles)
+                {
+                    FileInfo file = new FileInfo(Path.Join(tmpDir.FullName, v));
+                    if (pkg.AddFile(v, file) != null)
+                    {
+                        file.Delete();
+                    }
+                }
 
-            FileInfo tmpFile = new FileInfo(pkg.FileName + "_nekotmp.vpk");
-            FileInfo srcFile = new(pkg.FileName + ".vpk");
-            if (tmpFile.Exists)
-            {
+
+                FileInfo tmpFile = new(Path.Join(tmpDir.FullName, att.FileName + "_nekotmp.vpk"));
+                if (tmpFile.Exists)
+                    goto cancel;
+                tmpFile.Create().Close();
+                tmpFile.Attributes |= FileAttributes.Temporary;
+
+
+                if (neko7zFiles.Count > 0)
+                {
+                    SevenZipCompressor compressor = new() { 
+                        CompressionMode = CompressionMode.Create,
+                        ArchiveFormat = OutArchiveFormat.SevenZip,
+                        CompressionLevel = CompressionLevel.Ultra,
+                    };
+                    compressor.CompressFileDictionary(neko7zFiles, tmpFile.FullName);
+                    tmpFile.Refresh();
+                    if (!tmpFile.Exists)
+                        goto cancel;
+                    else
+                    {
+                        var reader = tmpFile.OpenRead();
+                        pkg.AddFile(pkg.GenNekoDir() + "0.neko7z", reader);
+                        reader.Close();
+                        tmpFile.Delete();
+                    }
+                }
+
+                FileInfo srcPakFile = new(pkg.FileName + ".vpk");
+                pkg.Write(tmpFile.FullName, 1);
                 pkg.Dispose();
-                CancelAssetTagChange();
+
+                // overwrite origin file
+                tmpFile.Refresh();
+                tmpFile.LastWriteTime = srcPakFile.LastWriteTime;
+                tmpFile.CreationTime = srcPakFile.CreationTime;
+                tmpFile.MoveTo(srcPakFile.FullName, true);
+
+
+                // update UI
+                ModifiedAssetTags.Clear();
+                AssetTagModifiedPanel.IsVisible = false;
+
+            clean:
+                extractor?.Dispose();
+                zipStream?.Dispose();
+                if (tmpDir.Exists)
+                    tmpDir.Delete(true);
                 return;
+            cancel:
+                CancelAssetTagChange();
+                goto clean;
             }
-
-            pkg.Write(tmpFile.FullName, 1);
-            pkg.Dispose();
-
-            tmpFile.Refresh();
-            tmpFile.LastWriteTime = srcFile.LastWriteTime;
-            tmpFile.CreationTime = srcFile.CreationTime;
-            tmpFile.MoveTo(srcFile.FullName, true);
-            
-
-            ModifiedAssetTags.Clear();
-            AssetTagModifiedPanel.IsVisible = false;
+            finally
+            {
+                pkg?.Dispose();
+            }
         }
     }
 

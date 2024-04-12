@@ -11,7 +11,7 @@ using MsBox.Avalonia.Enums;
 using Narod.SteamGameFinder;
 using ReactiveUI;
 using Avalonia.Collections;
-using DynamicData;
+using SevenZip;
 using System.Diagnostics;
 
 namespace NekoVpk.ViewModels;
@@ -79,9 +79,8 @@ public partial class MainViewModel : ViewModelBase
             return;
         }
 
-
         var files = addonDir.GetFiles("*.vpk").ToList();
-        if (addonDir.Exists)
+        if (workshopDir.Exists)
             files.AddRange(workshopDir.GetFiles("*.vpk"));
 
         AddonList addonList = new();
@@ -115,6 +114,15 @@ public partial class MainViewModel : ViewModelBase
 
             List<AssetTag> tags = [];
 
+            Func<string, bool, bool> checkPath = (p, isHidden) => {
+                if (TaggedAssets.GetAssetTag(p, isHidden) is AssetTag tag)
+                {
+                    if (!tags.Contains(tag))
+                        tags.Add(tag);
+                }
+                return false;
+            };
+
             var entties = pak.Entries;
             foreach (var entity in entties)
             {
@@ -123,15 +131,19 @@ public partial class MainViewModel : ViewModelBase
                     var path = file.GetFullPath();
                     if (path == "addoninfo.txt")
                         addonInfoEntry = file;
+                    else if (file.TypeName == "neko7z" && file.FileName == "0")
+                    {
+                        pak.ReadEntry(file, out byte[] neko7zBytes);
+                        SevenZipExtractor extractor = new(new MemoryStream(neko7zBytes));
+                        var archiveFileNames = extractor.ArchiveFileNames;
+                        foreach (var zipFile in archiveFileNames)
+                        {
+                            checkPath(zipFile, false);
+                        }
+                    }
                     else
                     {
-                        if (TaggedAssets.GetAssetTag(file) is AssetTag tag)
-                        {
-                            if (!tags.Contains(tag))
-                            {
-                                tags.Add(tag);
-                            }
-                        }
+                        checkPath(path, true);
                     }
                 }
             }
@@ -153,8 +165,7 @@ public partial class MainViewModel : ViewModelBase
             addonInfo ??= new();
             AddonAttribute newItem = new(addonEnabled, fileInfo.Name, addonSource, addonInfo);
 
-            tags.Reverse();
-            newItem.Tags = [.. tags];
+            newItem.Tags = [.. tags.OrderBy(x => x.Name)];
 
 
             var baseName = Path.ChangeExtension(fileInfo.Name, null);
