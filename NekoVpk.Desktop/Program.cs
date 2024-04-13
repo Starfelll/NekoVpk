@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Drawing;
 using Avalonia.Controls.ApplicationLifetimes;
 using NekoVpk.Desktop.Properties;
+using SevenZip;
 
 namespace NekoVpk.Desktop;
 
@@ -23,6 +24,12 @@ class Program
         try
 #endif
         {
+#if DEBUG
+            SevenZipExtractor.SetLibraryPath(@"C:\Program Files\7-Zip\7z.dll");
+#else
+            SevenZipExtractor.SetLibraryPath(@"7z.dll");
+#endif
+
             BuildAvaloniaApp().StartWithClassicDesktopLifetime(args, 
                 new Action<IClassicDesktopStyleApplicationLifetime>(v => v.Startup += OnStartup)
             );

@@ -53,14 +53,13 @@ namespace NekoVpk.Core
             return;
         }
         
-        public static AssetTag? GetAssetTag(PackageEntry entry)
+        public static AssetTag? GetAssetTag(string path, bool isHidden)
         {
             for (int i = 0; i < Tags.Count; ++i)
             {
-                string? nekoDir = null;
-                if (Tags[i].IsMatch(entry, out _, ref nekoDir))
+                if (Tags[i].IsMatch(path))
                 {
-                    return new AssetTag(i, nekoDir == null);
+                    return new (i, isHidden);
                 }
             }
 

@@ -35,34 +35,15 @@ namespace NekoVpk.Core
             return Name.GetHashCode();
         }
 
-        public bool IsMatch(PackageEntry entry, out string? originPath, ref string? nekoDir)
+        public bool IsMatch(string path)
         {
 
             foreach (var glob in Globs)
             {
-                var path = entry.GetFullPath();
-                if (nekoDir is null)
-                {
-                    entry.IsNekoDir(out nekoDir);
-                }
-
-                if (nekoDir != null && nekoDir != "")
-                    path = path.Replace(nekoDir, "");
                 if (glob.IsMatch(path))
-                {
-                    originPath = path;
                     return true;
-                }
-
             }
-            originPath = null;
             return false;
-        }
-
-        public bool IsMatch(PackageEntry entry, out string? originPath)
-        {
-            string? nekoDir = null;
-            return IsMatch(entry, out originPath, ref nekoDir);
         }
 
     }

@@ -33,6 +33,7 @@
     <PackageReference Include="Autoupdater.NET.Official" Version="1.8.5" />
     <PackageReference Include="Avalonia.Desktop" Version="11.1.0-beta1" />
     <PackageReference Include="NLog" Version="5.2.8" />
+    <PackageReference Include="Squid-Box.SevenZipSharp" Version="1.6.2.24" />
   </ItemGroup>
 
   <ItemGroup>
@@ -53,4 +54,5 @@
       <LastGenOutput>Resource.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
+
 </Project>
