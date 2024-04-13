@@ -8,8 +8,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Diagnostics;
-using Avalonia.Threading;
 using SevenZip;
+using System.Linq;
 
 namespace NekoVpk.Views;
 
@@ -23,13 +23,13 @@ public partial class MainView : UserControl
     private void DataGrid_CurrentCellChanged(object? sender, System.EventArgs e)
     {
         CancelAssetTagChange();
-        if (sender is DataGrid dg && dg.SelectedItem is AddonAttribute att && GameDir.Text is not null)
+        if (sender is DataGrid dg && dg.SelectedItem is AddonAttribute att)
         {
 
             Package? pak = null;
             try
             {
-                pak = att.LoadPackage(GameDir.Text);
+                pak = att.LoadPackage(NekoSettings.Default.GameDir);
             }
             catch (FileNotFoundException ex)
             {
@@ -47,7 +47,7 @@ public partial class MainView : UserControl
             }
             else
             {
-                FileInfo jpg = new(Path.ChangeExtension(att.GetAbsolutePath(GameDir.Text), "jpg"));
+                FileInfo jpg = new(Path.ChangeExtension(att.GetAbsolutePath(NekoSettings.Default.GameDir), "jpg"));
                 if (jpg.Exists)
                 {
                     var fileStream = jpg.OpenRead();
@@ -77,39 +77,7 @@ public partial class MainView : UserControl
 
     }
     
-    private async void Browser_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
-    {
-        var topLevel = TopLevel.GetTopLevel(this);
-        if (topLevel == null) return;
-        var storageProvider = topLevel.StorageProvider;
-        if (storageProvider is null) return;
 
-        IStorageFolder? suggestedStartLocation = null;
-        if (NekoSettings.Default.GameDir != "")
-        {
-            suggestedStartLocation = await storageProvider.TryGetFolderFromPathAsync(new Uri(NekoSettings.Default.GameDir));
-        }
-        var result = await storageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions() { 
-            Title = "Select Game Directory", 
-            AllowMultiple = false, 
-           SuggestedStartLocation = suggestedStartLocation
-        });
-
-        
-        if (result is not null && result.Count == 1) {
-            var dirInfo = new DirectoryInfo(result[0].Path.LocalPath);
-            var dirs = dirInfo.GetDirectories("addons");
-            if (dirs.Length == 0) {
-                dirs = dirInfo.GetDirectories("left4dead2");
-                if (dirs.Length != 0)
-                {
-                    GameDir.Text = dirs[0].FullName;
-                    return;
-                }
-            }
-            GameDir.Text = dirInfo.FullName;
-        }
-    }
 
     private void DataGrid_BeginningEdit(object? sender, Avalonia.Controls.DataGridBeginningEditEventArgs e)
     {
@@ -121,10 +89,10 @@ public partial class MainView : UserControl
 
     private void DataGrid_CellEditEnded(object? sender, Avalonia.Controls.DataGridCellEditEndedEventArgs e)
     {
-        if (e.EditAction == DataGridEditAction.Commit && GameDir.Text != null)
+        if (e.EditAction == DataGridEditAction.Commit)
         {
             AddonList addonList = new();
-            addonList.Load(GameDir.Text);
+            addonList.Load(NekoSettings.Default.GameDir);
             bool modified = false;
             foreach (var v in AddonAttribute.dirty)
             {
@@ -137,7 +105,7 @@ public partial class MainView : UserControl
 
             if (modified)
             {
-                addonList.Save(GameDir.Text);
+                addonList.Save(NekoSettings.Default.GameDir);
             }
         }
     }
@@ -146,7 +114,7 @@ public partial class MainView : UserControl
     {
         if (AddonList.SelectedItem is AddonAttribute att)
         {
-            FileInfo fileInfo = new(att.GetAbsolutePath(GameDir.Text));
+            FileInfo fileInfo = new(att.GetAbsolutePath(NekoSettings.Default.GameDir));
             Process.Start(new ProcessStartInfo() {
                 FileName = "explorer.exe",
                 Arguments = $"/select, \"{fileInfo.FullName}\"",
@@ -165,7 +133,7 @@ public partial class MainView : UserControl
             {
                 Process.Start(new ProcessStartInfo()
                 {
-                    FileName = att.GetAbsolutePath(GameDir.Text),
+                    FileName = att.GetAbsolutePath(NekoSettings.Default.GameDir),
                     UseShellExecute = true,
                     Verb = "open",
                 });
@@ -238,46 +206,48 @@ public partial class MainView : UserControl
                 tmpDir.Create();
                 tmpDir.Attributes |= FileAttributes.Hidden;
 
+                FileInfo tmpFile = new(Path.Join(tmpDir.FullName, att.FileName + ".nekotmp"));
+
                 SevenZipExtractor? extractor = null;
-                MemoryStream? zipStream = null;
+                SevenZipCompressor? compressor = null;
 
                 // find neko7z
                 foreach (var entry in pkg.Entries)
                 {
                     if (entry.Key == "neko7z" && entry.Value[0].FileName == "0")
                     {
-                        zipStream = pkg.ReadEntry(entry.Value[0]);
-                        extractor = new SevenZipExtractor(zipStream);
+                        pkg.ExtratFile(entry.Value[0], tmpFile);
+                        tmpFile.Refresh();
                         pkg.RemoveFile(entry.Value[0]);
+                        extractor = new(tmpFile.FullName);
                         break;
                     }
                 }
 
-                List<string> vpkFiles = [];
-                Dictionary<string, string> neko7zFiles = [];
+                if (!tmpFile.Exists) tmpFile.Create().Close();
+                tmpFile.Attributes |= FileAttributes.Temporary;
 
+                Dictionary<int, string> disableZipFiles = [];
+                List<PackageEntry> disableEntries = [];
+                List<string> vpkFiles = [];
+                Dictionary<string, string> zipFiles = [];
 
                 if (extractor is not null)
                 {
                     foreach (var zipFile in extractor.ArchiveFileData)
                     {
                         if (zipFile.IsDirectory) continue;
-                        bool isEnable = false;
                         foreach (var tag in ModifiedAssetTags.Keys)
                         {
                             if (tag.Enable && tag.Proporty.IsMatch(zipFile.FileName))
                             {
-                                isEnable = true;
+                                disableZipFiles.Add(zipFile.Index, null);
+                                vpkFiles.Add(zipFile.FileName);
                                 break;
                             }
                         }
-                        if (isEnable)
-                            vpkFiles.Add(zipFile.FileName);
-                        else
-                            neko7zFiles.Add(zipFile.FileName, Path.Join(tmpDir.FullName, zipFile.FileName));
                     }
                 }
-                List<PackageEntry> disableEntries = [];
                 foreach (var entry in pkg.Entries)
                 {
                     foreach (var f in entry.Value)
@@ -294,51 +264,51 @@ public partial class MainView : UserControl
                 }
 
 
+                compressor = new()
+                {
+                    CompressionMode = extractor is null ? CompressionMode.Create : CompressionMode.Append,
+                    ArchiveFormat = OutArchiveFormat.SevenZip,
+                    CompressionLevel = CompressionLevel.Ultra,
+                    CompressionMethod = CompressionMethod.Lzma2,
+                };
 
-                extractor?.ExtractArchive(tmpDir.FullName);
+
+                // move zip files to vpk
+                if (extractor != null && disableZipFiles.Count > 0) {
+                    extractor.ExtractFiles(tmpDir.FullName, disableZipFiles.Keys.ToArray());
+                    foreach (var v in vpkFiles)
+                    {
+                        FileInfo file = new (Path.Join(tmpDir.FullName, v));
+                        if (pkg.AddFile(v, file) != null)
+                        {
+                        }
+                    }
+                    // delete file in archive
+                    compressor.ModifyArchive(tmpFile.FullName, disableZipFiles);
+                }
+
+                // move vpk files to zip
                 foreach (var entry in disableEntries)
                 {
-                    FileInfo outFile = new (Path.Join(tmpDir.FullName, entry.GetFullPath()));
-                    entry.ExtratFile(outFile, pkg);
-                    neko7zFiles.Add(entry.GetFullPath(), outFile.FullName);
+                    FileInfo outFile = new(Path.Join(tmpDir.FullName, entry.GetFullPath()));
+                    pkg.ExtratFile(entry, outFile);
+
+                    zipFiles.Add(entry.GetFullPath(), outFile.FullName);
                     pkg.RemoveFile(entry);
                 }
-                foreach (var v in vpkFiles)
+                if (zipFiles.Count > 0)
                 {
-                    FileInfo file = new FileInfo(Path.Join(tmpDir.FullName, v));
-                    if (pkg.AddFile(v, file) != null)
-                    {
-                        file.Delete();
-                    }
+                    compressor.CompressFileDictionary(zipFiles, tmpFile.FullName);
                 }
 
-
-                FileInfo tmpFile = new(Path.Join(tmpDir.FullName, att.FileName + "_nekotmp.vpk"));
-                if (tmpFile.Exists)
-                    goto cancel;
-                tmpFile.Create().Close();
-                tmpFile.Attributes |= FileAttributes.Temporary;
-
-
-                if (neko7zFiles.Count > 0)
+                
+                if (zipFiles.Count > 0 || (extractor != null && disableZipFiles.Count < extractor.ArchiveFileData.Count))
                 {
-                    SevenZipCompressor compressor = new() { 
-                        CompressionMode = CompressionMode.Create,
-                        ArchiveFormat = OutArchiveFormat.SevenZip,
-                        CompressionLevel = CompressionLevel.Ultra,
-                    };
-                    compressor.CompressFileDictionary(neko7zFiles, tmpFile.FullName);
                     tmpFile.Refresh();
-                    if (!tmpFile.Exists)
-                        goto cancel;
-                    else
-                    {
-                        var reader = tmpFile.OpenRead();
-                        pkg.AddFile(pkg.GenNekoDir() + "0.neko7z", reader);
-                        reader.Close();
-                        tmpFile.Delete();
-                    }
+                    pkg.AddFile(pkg.GenNekoDir() + "0.neko7z", tmpFile);
+                    tmpFile.Delete();
                 }
+
 
                 FileInfo srcPakFile = new(pkg.FileName + ".vpk");
                 pkg.Write(tmpFile.FullName, 1);
@@ -357,7 +327,6 @@ public partial class MainView : UserControl
 
             clean:
                 extractor?.Dispose();
-                zipStream?.Dispose();
                 if (tmpDir.Exists)
                     tmpDir.Delete(true);
                 return;
