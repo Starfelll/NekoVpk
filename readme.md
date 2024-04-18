@@ -20,6 +20,11 @@
 
 
 ## changelog
+#### v0.1.0
+- Breaking updates, mods that disable some content need to be fully enabled in the old version to be recognized in the new version.
+- Enable file compression for disabled content.
+- New UI layout.
+- Add tags: zoey_light,bill_deathpose,francis_light.
 #### v0.0.8
 - Supports searching file names.
 - During the scanning process, the workshop directory is no longer required.

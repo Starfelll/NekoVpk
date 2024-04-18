@@ -34,5 +34,17 @@ namespace NekoVpk {
                 this["GameDir"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public short CompressionLevel {
+            get {
+                return ((short)(this["CompressionLevel"]));
+            }
+            set {
+                this["CompressionLevel"] = value;
+            }
+        }
     }
 }
