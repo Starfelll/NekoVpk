@@ -20,6 +20,8 @@
 
 
 ## changelog
+#### v0.1.1
+- Automatically back up files when they are modified.
 #### v0.1.0
 - Breaking updates, mods that disable some content need to be fully enabled in the old version to be recognized in the new version.
 - Enable file compression for disabled content.

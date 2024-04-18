@@ -326,16 +326,18 @@ public partial class MainView : UserControl
                     tmpFile.Delete();
                 }
 
-
-                FileInfo srcPakFile = new(pkg.FileName + ".vpk");
+                string originFilePath = pkg.FileName + ".vpk";
+                FileInfo srcPakFile = new(originFilePath);
                 pkg.Write(tmpFile.FullName, 1);
                 pkg.Dispose();
+
+                srcPakFile.MoveTo(Path.ChangeExtension(originFilePath, ".vpk.nekobak"), true);
 
                 // overwrite origin file
                 tmpFile.Refresh();
                 tmpFile.LastWriteTime = srcPakFile.LastWriteTime;
                 tmpFile.CreationTime = srcPakFile.CreationTime;
-                tmpFile.MoveTo(srcPakFile.FullName, true);
+                tmpFile.MoveTo(originFilePath, true);
 
 
                 // update UI
