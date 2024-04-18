@@ -13,22 +13,37 @@
          to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
     <vm:MainViewModel />
   </Design.DataContext>
-	<Grid RowDefinitions="auto,auto,*">
-		<Grid Grid.Row="0" Margin="13 10 10 10" ColumnDefinitions="*,auto,auto" VerticalAlignment="Center" HorizontalAlignment="Left">
-			<TextBox Grid.Column="0" Name="GameDir" Text="{Binding GameDir}" InnerLeftContent="GameDir" TextWrapping="NoWrap" Width="600" Height="32" IsUndoEnabled="True"></TextBox>
-			<Button Grid.Column="1" Click="Browser_Click" Classes="Tertiary" Height="32">...</Button>
-			<Button Grid.Column="2" Click="Button_Click" Classes="Primary" Theme="{DynamicResource SolidButton}" Height="32" Margin="20 0 0 0" Content="{x:Static lang:Resources.Scan}"/>
-		</Grid>
+
+	<Grid RowDefinitions="auto,auto,*" Margin="13 10 10 10">
+		<DockPanel Grid.Row="0">
+			<StackPanel DockPanel.Dock="Right"
+						Margin="10"
+						Orientation="Horizontal"
+						HorizontalAlignment="Right"
+						VerticalAlignment="Center"
+						Spacing="5">
+				<Button Grid.Column="2"
+						Classes="Primary"
+						Theme="{DynamicResource SolidButton}"
+						Height="32" Margin="20 0 0 0"
+						Content="{x:Static lang:Resources.Scan}"
+						Click="Button_Click"/>
+				<Button HorizontalAlignment="Right"
+						Click="Settings_Button_Click">Settings</Button>
+			</StackPanel>
+			<StackPanel DockPanel.Dock="Left" VerticalAlignment="Center">
+				<TextBox Grid.Column="0"
+						 Text="{Binding SearchKeywords}"
+						 InnerLeftContent="Search"
+						 TextWrapping="NoWrap"
+						 Width="600"
+						 Height="32"
+						 IsUndoEnabled="True"
+						 KeyUp="TextBox_AddonSearch_KeyUp"
+						 TextChanged="TextBox_AddonSearch_TextChanged"/>
+			</StackPanel>
+		</DockPanel>
 		<Grid Grid.Row="1" Margin="13 0 10 10" ColumnDefinitions="*,auto,auto" VerticalAlignment="Center" HorizontalAlignment="Left">
-			<TextBox Grid.Column="0"
-					 Text="{Binding SearchKeywords}"
-					 InnerLeftContent="Search" 
-					 TextWrapping="NoWrap" 
-					 Width="600" 
-					 Height="32"
-					 IsUndoEnabled="True"
-					 KeyUp="TextBox_AddonSearch_KeyUp"
-					 TextChanged="TextBox_AddonSearch_TextChanged"/>
 			<!--<Button Grid.Column="1" 
 					Classes="Tertiary" 
 					Click="Button_AddonSearch_Click"
@@ -46,7 +61,8 @@
 					  BeginningEdit="DataGrid_BeginningEdit"
 					  CellEditEnded="DataGrid_CellEditEnded"
 					  DoubleTapped="AddonList_DoubleTapped"
-					  ItemsSource="{Binding Addons}">
+					  ItemsSource="{Binding Addons}" 
+					  Sorting="DataGrid_Sorting">
 				<DataGrid.ContextMenu>
 					<ContextMenu>
 						<MenuItem Click="AddonList_Menu_LocateFile" Header="Locate file" />
@@ -85,7 +101,16 @@
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>
-				
+					<!--<DataGridTextColumn Header="Modification Time" 
+										Binding="{Binding ModificationTime, StringFormat='yyyy-MM-dd'}" 
+										Width="100"
+										CanUserSort="true"
+										SortMemberPath="ModificationTime"/>-->
+					<DataGridTextColumn Header="Creation Time"
+										Binding="{Binding CreationTimeStr}"
+										Width="auto"
+										CanUserSort="true"
+										SortMemberPath="CreationTime"/>
 				</DataGrid.Columns>
 			</DataGrid>
 			<GridSplitter Grid.Column="1" ResizeDirection="Columns"/>

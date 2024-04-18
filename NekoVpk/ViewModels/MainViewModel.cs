@@ -18,6 +18,16 @@ namespace NekoVpk.ViewModels;
 
 public partial class MainViewModel : ViewModelBase
 {
+    public MainViewModel()
+    {
+        if (NekoSettings.Default.GameDir == "")
+        {
+            NekoSettings.Default.GameDir = TryToFindGameDir() ?? NekoSettings.Default.GameDir;
+        }
+
+        _Addons = new(_addonList) { Filter = AddonsFilter };
+    }
+
     public string GameDir 
     {
         get => NekoSettings.Default.GameDir;
@@ -39,15 +49,6 @@ public partial class MainViewModel : ViewModelBase
     string? _SearchKeywords = "";
 
     public string? SearchKeywords { get => _SearchKeywords; set => this.RaiseAndSetIfChanged(ref _SearchKeywords, value); }
-
-    public MainViewModel() {
-        if (NekoSettings.Default.GameDir == "")
-        {
-            NekoSettings.Default.GameDir = TryToFindGameDir() ?? NekoSettings.Default.GameDir;
-        }
-
-        _Addons = new(_addonList) { Filter = AddonsFilter };
-    }
 
     public static string? TryToFindGameDir()
     {
@@ -174,7 +175,8 @@ public partial class MainViewModel : ViewModelBase
                 newItem.WorkShopID = baseName;
             }
 
-
+            newItem.ModificationTime = fileInfo.LastWriteTime;
+            newItem.CreationTime = fileInfo.CreationTime;
             _addonList.Add(newItem);
         }
         Addons.Refresh();

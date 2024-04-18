@@ -61,7 +61,7 @@ namespace NekoVpk.Lang {
         }
         
         /// <summary>
-        ///   查找类似 Scan 的本地化字符串。
+        ///   查找类似 Reload addons 的本地化字符串。
         /// </summary>
         public static string Scan {
             get {

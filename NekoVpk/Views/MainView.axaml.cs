@@ -10,6 +10,9 @@ using System.IO;
 using System.Diagnostics;
 using SevenZip;
 using System.Linq;
+using ReactiveUI;
+using System.Threading.Tasks;
+using Avalonia.Threading;
 
 namespace NekoVpk.Views;
 
@@ -20,12 +23,24 @@ public partial class MainView : UserControl
         InitializeComponent();
     }
 
+    public override void EndInit()
+    {
+        //ReloadAddonList();
+        base.EndInit();
+    }
+
+    protected override void OnDataContextChanged(EventArgs e)
+    {
+        ReloadAddonList();
+        base.OnDataContextChanged(e);
+    }
+
     private void DataGrid_CurrentCellChanged(object? sender, System.EventArgs e)
     {
         CancelAssetTagChange();
         if (sender is DataGrid dg && dg.SelectedItem is AddonAttribute att)
         {
-
+            AddonDetailPanel.IsVisible = true;
             Package? pak = null;
             try
             {
@@ -66,17 +81,18 @@ public partial class MainView : UserControl
 
     private void Button_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
+        ReloadAddonList();
+    }
+
+    private void ReloadAddonList()
+    {
         if (DataContext is MainViewModel vm)
         {
-            AddonDetailPanel.IsVisible = true;
-            vm.LoadAddons();
-            AddonList.SelectedIndex = 0;
-            AddonList.Columns[2].ClearSort();
-            AddonList.Columns[2].Sort();
+            Dispatcher.UIThread.Post(() => {
+                vm.LoadAddons();
+            }, DispatcherPriority.Background);
         }
-
     }
-    
 
 
     private void DataGrid_BeginningEdit(object? sender, Avalonia.Controls.DataGridBeginningEditEventArgs e)
@@ -268,6 +284,7 @@ public partial class MainView : UserControl
                 {
                     CompressionMode = extractor is null ? CompressionMode.Create : CompressionMode.Append,
                     ArchiveFormat = OutArchiveFormat.SevenZip,
+                    //CompressionLevel = (CompressionLevel)NekoSettings.Default.CompressionLevel,
                     CompressionLevel = CompressionLevel.Ultra,
                     CompressionMethod = CompressionMethod.Lzma2,
                 };
@@ -380,5 +397,24 @@ public partial class MainView : UserControl
     private void TextBox_AddonSearch_TextChanged(object? sender, Avalonia.Controls.TextChangedEventArgs e)
     {
         SubmitAddonSearch();
+    }
+
+    private void DataGrid_Sorting(object? sender, Avalonia.Controls.DataGridColumnEventArgs e)
+    {
+        
+    }
+
+    private async void Settings_Button_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    {
+        if (this.VisualRoot is Window window)
+        {
+            var settingsWindow = new SettingsWindow()
+            {
+                DataContext = new ViewModels.Settings(),
+                Background = window.Background,
+            };
+            await settingsWindow.ShowDialog(window);
+        }
+        
     }
 }

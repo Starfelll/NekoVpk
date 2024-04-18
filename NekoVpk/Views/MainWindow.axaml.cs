@@ -27,8 +27,11 @@ public partial class MainWindow : Window
                 brush.Opacity = 0;
             }
         }
-
-
     }
 
+
+
+    private void Button_Click_1(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    {
+    }
 }

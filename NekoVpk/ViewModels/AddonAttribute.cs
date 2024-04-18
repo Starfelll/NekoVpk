@@ -4,6 +4,7 @@ using System.IO;
 using SteamDatabase.ValvePak;
 using ReactiveUI;
 using NekoVpk.Core;
+using System;
 
 namespace NekoVpk.ViewModels
 {
@@ -77,6 +78,22 @@ namespace NekoVpk.ViewModels
         }
 
         public AssetTag[] Tags { get; set; } = [];
+
+        public DateTime ModificationTime { get; set; }
+
+        DateTime _CreationTime;
+
+        public DateTime CreationTime { get => _CreationTime; 
+            set {
+                if (this.RaiseAndSetIfChanged(ref _CreationTime, value) == value)
+                {
+                    CreationTimeStr = value.ToString();
+                    this.RaisePropertyChanged(nameof(CreationTimeStr));
+                }
+            } 
+        }
+
+        public string CreationTimeStr { get; set; }
 
         public AddonAttribute(bool? enable, string fileName, AddonSource source, AddonInfo addonInfo)
         {

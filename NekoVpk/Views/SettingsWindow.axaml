@@ -1,0 +1,48 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="700" d:DesignHeight="600"
+        x:Class="NekoVpk.Views.SettingsWindow"
+		xmlns:vm="clr-namespace:NekoVpk.ViewModels"
+		x:DataType="vm:Settings"
+        Title="NekoSettings"
+		Width="700" Height="600"
+		WindowStartupLocation="CenterScreen"
+		TransparencyLevelHint="Mica,AcrylicBlur,Blur,None"
+		Icon="/Assets/NekoVpk.ico">
+	<Design.DataContext>
+		<!-- This only sets the DataContext for the previewer in an IDE,
+         to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
+		<vm:Settings />
+	</Design.DataContext>
+	<StackPanel Margin="16">
+		<Grid ColumnDefinitions="auto,auto" RowDefinitions="auto,auto" VerticalAlignment="Center">
+			<Grid.Styles>
+				<Style Selector="StackPanel">
+					<Setter Property="Orientation" Value="Horizontal" />
+					<Setter Property="VerticalAlignment" Value="Center" />
+					<Setter Property="Margin" Value="0 0 0 18" />
+				</Style>
+				<Style Selector="Label">
+					<Setter Property="VerticalAlignment" Value="Center" />
+					<Setter Property="Margin" Value="6" />
+				</Style>
+			</Grid.Styles>
+			<StackPanel>
+				<TextBox Name="GameDir" Text="{Binding GameDir}" InnerLeftContent="GameDir" TextWrapping="NoWrap" Width="600" Height="32" IsUndoEnabled="True"></TextBox>
+				<Button Classes="Tertiary" Height="32" Click="Browser_Click">...</Button>
+			</StackPanel>
+			<!--<StackPanel Grid.Row="1">
+				<Label>CompressionLevel</Label>
+				<ComboBox Name="ComboBox_CompressionLevel" Width="100" SelectedIndex="{Binding CompressionLevel}">
+					<ComboBoxItem>Fast</ComboBoxItem>
+					<ComboBoxItem>Low</ComboBoxItem>
+					<ComboBoxItem>Normal</ComboBoxItem>
+					<ComboBoxItem>High</ComboBoxItem>
+					<ComboBoxItem>Ultra</ComboBoxItem>
+				</ComboBox>
+			</StackPanel>-->
+		</Grid>
+	</StackPanel>
+</Window>
