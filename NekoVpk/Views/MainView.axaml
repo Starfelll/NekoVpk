@@ -101,12 +101,11 @@
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>
-					<!--<DataGridTextColumn Header="Modification Time" 
-										Binding="{Binding ModificationTime, StringFormat='yyyy-MM-dd'}" 
+          <DataGridTextColumn Header="Type"
+										Binding="{Binding Type}"
 										Width="100"
-										CanUserSort="true"
-										SortMemberPath="ModificationTime"/>-->
-					<DataGridTextColumn Header="Creation Time"
+										CanUserSort="True"/>
+					<DataGridTextColumn Header="Added time"
 										Binding="{Binding CreationTimeStr}"
 										Width="auto"
 										CanUserSort="true"

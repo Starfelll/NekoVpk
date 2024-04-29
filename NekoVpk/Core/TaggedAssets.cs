@@ -47,6 +47,17 @@ namespace NekoVpk.Core
                     {
                         Tags.Last().Color = color.ToString();
                     }
+
+                    token = obj["alias"];
+                    if (token is JArray alias)
+                    {
+                        string[] aliasVal = new string[alias.Count];
+                        for (int i = 0; i < aliasVal.Length; ++i)
+                        {
+                            aliasVal[i] = alias[i].ToString();
+                        }
+                        Tags.Last().Alias = aliasVal;
+                    }
                 }
 
             }

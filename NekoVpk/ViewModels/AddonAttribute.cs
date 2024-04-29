@@ -83,6 +83,10 @@ namespace NekoVpk.ViewModels
 
         DateTime _CreationTime;
 
+        readonly string _Type;
+
+        public string Type { get =>  _Type; }
+
         public DateTime CreationTime { get => _CreationTime; 
             set {
                 if (this.RaiseAndSetIfChanged(ref _CreationTime, value) == value)
@@ -95,12 +99,13 @@ namespace NekoVpk.ViewModels
 
         public string CreationTimeStr { get; set; }
 
-        public AddonAttribute(bool? enable, string fileName, AddonSource source, AddonInfo addonInfo)
+        public AddonAttribute(bool? enable, string fileName, AddonSource source, AddonInfo addonInfo, string? types = null)
         {
             _Enabled = enable;
             FileName = fileName;
             Source = source;
             AddonInfo = addonInfo;
+            _Type = types ?? string.Empty;
         }
 
         public string GetAbsolutePath(string gameDir)

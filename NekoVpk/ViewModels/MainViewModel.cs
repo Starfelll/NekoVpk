@@ -164,8 +164,25 @@ public partial class MainViewModel : ViewModelBase
                 }
             }
             addonInfo ??= new();
-            AddonAttribute newItem = new(addonEnabled, fileInfo.Name, addonSource, addonInfo);
+            
 
+            string types = string.Empty;
+            foreach (var t in tags)
+            {
+                if (t.Alias is null) { continue; }
+                foreach (var t2 in t.Alias)
+                {
+                    if (!types.Contains(t2))
+                    {
+                        if (types.Length > 0)
+                            types += $", {t2}";
+                        else
+                            types = t2;
+                    }
+                }
+            }
+
+            AddonAttribute newItem = new(addonEnabled, fileInfo.Name, addonSource, addonInfo, types);
             newItem.Tags = [.. tags.OrderBy(x => x.Name)];
 
 
@@ -217,6 +234,12 @@ public partial class MainViewModel : ViewModelBase
 
                 if (match >= keywordList.Count) return true;
                 if (att.FileName.Contains(str, StringComparison.OrdinalIgnoreCase))
+                {
+                    match++; continue;
+                }
+
+                if (match >= keywordList.Count) return true;
+                if (att.Type.Contains(str, StringComparison.OrdinalIgnoreCase))
                 {
                     match++; continue;
                 }
