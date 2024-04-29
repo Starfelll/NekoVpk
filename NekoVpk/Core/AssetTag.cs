@@ -13,10 +13,10 @@ namespace NekoVpk.Core
 
         public Glob[] Globs { get; set; }
 
-        public string[]? Alias { get; set; }
+        public string[]? Type { get; set; }
 
         public AssetTagProperty(string name, Glob[] globs, string color = "", string[]? alias = null) {
-            Name = name; Color = color; Globs = globs; Alias = alias;
+            Name = name; Color = color; Globs = globs; Type = alias;
         }
 
         public AssetTagProperty(AssetTagProperty obj)
@@ -62,7 +62,7 @@ namespace NekoVpk.Core
 
         public Glob[] Globs { get => TaggedAssets.Tags[Index].Globs; }
 
-        public string[]? Alias { get => TaggedAssets.Tags[Index]?.Alias; }
+        public string[]? Type { get => TaggedAssets.Tags[Index]?.Type; }
 
         bool _Enable;
 

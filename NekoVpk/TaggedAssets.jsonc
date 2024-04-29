@@ -1,26 +1,28 @@
 ﻿{
-    "bill": {
+    "Bill": {
         "color": "Red",
         "translate": {},
-        "files": [
-            "materials/vgui/s_panel_namvet.vtf",
-            "materials/vgui/s_panel_namvet_incap.vtf",
-            "materials/vgui/select_bill.vtf",
-            "materials/vgui/s_panel_namvet.vmt",
-            "materials/vgui/s_panel_namvet_incap.vmt",
-            "materials/vgui/select_bill.vmt",
-            "models/survivors/survivor_namvet.*",
-            "models/weapons/arms/v_arms_bill.*"
-        ]
+      "files": [
+        "materials/vgui/s_panel_namvet.vtf",
+        "materials/vgui/s_panel_namvet_incap.vtf",
+        "materials/vgui/select_bill.vtf",
+        "materials/vgui/s_panel_namvet.vmt",
+        "materials/vgui/s_panel_namvet_incap.vmt",
+        "materials/vgui/select_bill.vmt",
+        "models/survivors/survivor_namvet.*",
+        "models/weapons/arms/v_arms_bill.*"
+      ],
+      "type": ["Survivor"]
     },
-    "bill_deathpose": {
+    "BillDeathPose": {
         "color": "Red",
         "translate": {},
         "files": [
             "models/survivors/namvet/namvet_deathpose.*"
-        ]
+        ],
+        "type": ["Survivor"]
     },
-    "coach": {
+    "Coach": {
         "color": "Pink",
         "translate": {},
         "files": [
@@ -32,9 +34,10 @@
             "materials/vgui/s_panel_lobby_coach.vmt",
             "models/survivors/survivor_coach.*",
             "models/weapons/arms/v_arms_coach_new.*"
-        ]
+        ],
+        "type": ["Survivor"]
     },
-    "ellis": {
+    "Ellis": {
         "color": "Purple",
         "translate": {},
         "files": [
@@ -46,9 +49,10 @@
             "materials/vgui/s_panel_lobby_mechanic.vmt",
             "models/survivors/survivor_mechanic.*",
             "models/weapons/arms/v_arms_mechanic_new.*"
-        ]
+        ],
+        "type": ["Survivor"]
     },
-    "francis": {
+    "Francis": {
         "color": "Violet",
         "translate": {},
         "files": [
@@ -60,16 +64,18 @@
             "materials/vgui/select_francis.vmt",
             "models/survivors/survivor_biker.*",
             "models/weapons/arms/v_arms_francis.*"
-        ]
+        ],
+        "type": ["Survivor"]
     },
-    "francis_light": {
+    "FrancisLight": {
         "color": "Violet",
         "translate": {},
         "files": [
             "models/survivors/survivor_biker_light.*"
-        ]
+        ],
+        "type": ["Survivor"]
     },
-    "louis": {
+    "Louis": {
         "color": "Indigo",
         "translate": {},
         "files": [
@@ -81,9 +87,10 @@
             "materials/vgui/select_louis.vmt",
             "models/survivors/survivor_manager.*",
             "models/weapons/arms/v_arms_louis.*"
-        ]
+        ],
+        "type": ["Survivor"]
     },
-    "nick": {
+    "Nick": {
         "color": "Blue",
         "translate": {},
         "files": [
@@ -95,9 +102,10 @@
             "materials/vgui/s_panel_lobby_gambler.vmt",
             "models/survivors/survivor_gambler.*",
             "models/weapons/arms/v_arms_gambler_new.*"
-        ]
+        ],
+        "type": ["Survivor"]
     },
-    "rochelle": {
+    "Rochelle": {
         "color": "LightBlue",
         "translate": {},
         "files": [
@@ -109,9 +117,10 @@
             "materials/vgui/s_panel_lobby_producer.vmt",
             "models/survivors/survivor_producer.*",
             "models/weapons/arms/v_arms_producer_new.*"
-        ]
+        ],
+        "type": ["Survivor"]
     },
-    "zoey": {
+    "Zoey": {
         "color": "Cyan",
         "translate": {},
         "files": [
@@ -123,79 +132,47 @@
             "materials/vgui/select_zoey.vmt",
             "models/survivors/survivor_teenangst.*",
             "models/weapons/arms/v_arms_zoey.*"
-        ]
+        ],
+        "type": ["Survivor"]
     },
-    "zoey_light": {
+    "ZoeyLight": {
         "color": "Cyan",
         "translate": {},
         "files": [
             "models/survivors/survivor_teenangst_light.*"
-        ]
-    },
-    "map": {
+        ],
+        "type": ["Survivor"]
+    }
+    
+    
+    ,"Map": {
         "color": "Teal",
         "translate": {},
         "files": [
             "maps/**"
         ]
-    } //,
-    // "infected": {
-    //     "color": "Green",
-    //     "translate": {},
-    //     "files": [
-    //         "models/infected/**"
-    //     ]
-    // },
-    // "v_model": {
-    //     "color": "LightGreen",
-    //     "translate": {},
-    //     "files": [
-    //         "models/v_models/**"
-    //     ]
-    // },
-    // "w_model": {
-    //     "color": "Lime",
-    //     "translate": {},
-    //     "files": [
-    //         "models/w_models/**"
-    //     ]
-    // },
-    // "prop": {
-    //     "color": "Yellow",
-    //     "translate": {},
-    //     "files": [
-    //         "models/props*/**"
-    //     ]
-    // },
-    // "script": {
-    //     "color": "Amber",
-    //     "translate": {},
-    //     "files": [
-    //         "scripts/**"
-    //     ]
-    // }
-    ,
-    "particle": {
+    }
+    ,"Script": {
+        "color": "Amber",
+        "translate": {},
+        "files": [
+            "scripts/**"
+        ]
+    },
+    "Particle": {
         "color": "Orange",
         "translate": {},
         "files": [
             "particles/**"
         ]
     },
-    "sound": {
+    "Sound": {
         "color": "Red",
         "translate": {},
         "files": [
             "sound/**"
         ]
     }
-    // "melee": {
-    //     "color": "Grey",
-    //     "translate": {},
-    //     "files": [
-    //         "models/weapons/melee/**"
-    //     ]
-    // }
 
     // Weapons
     ,
@@ -205,7 +182,8 @@
         "files": [
             "models/w_models/weapons/w_smg_mp5.*",
             "models/v_models/v_smg_mp5.*"
-        ]
+        ],
+        "type": ["Weapon", "SMG"]
     },
     "Scout": {
         "color": "Yellow",
@@ -213,7 +191,8 @@
         "files": [
             "models/w_models/weapons/w_sniper_scout.*",
             "models/v_models/v_snip_scout.*"
-        ]
+        ],
+        "type": ["Weapon", "Sniper"]
     },
     "SG552": {
         "color": "Yellow",
@@ -221,7 +200,8 @@
         "files": [
             "models/w_models/weapons/w_rifle_sg552.*",
             "models/v_models/v_rif_sg552.*"
-        ]
+        ],
+        "type": ["Weapon", "Rifle"]
     },
     "AWP": {
         "color": "Yellow",
@@ -229,7 +209,8 @@
         "files": [
             "models/w_models/weapons/w_sniper_awp.*",
             "models/v_models/v_snip_awp.*"
-        ]
+        ],
+        "type": ["Weapon", "Sniper"]
     },
     "Deagle": { // magnum.txt
         "color": "Yellow",
@@ -237,7 +218,8 @@
         "files": [
             "models/w_models/weapons/w_desert_eagle.*",
             "models/v_models/v_desert_eagle.*"
-        ]
+        ],
+        "type": ["Weapon", "Pistol"]
     },
     "Pistol": {
         "color": "Yellow",
@@ -248,7 +230,8 @@
             "models/w_models/weapons/w_pistol_B.*",
             "models/v_models/v_pistolA.*",
             "models/v_models/v_dual_pistolA.*"
-        ]
+        ],
+        "type": ["Weapon", "Pistol"]
     },
     "Mac-10": { // smg_silenced.txt
         "color": "Yellow",
@@ -256,7 +239,8 @@
         "files": [
             "models/w_models/weapons/w_smg_a.*",
             "models/v_models/v_silenced_smg.*"
-        ]
+        ],
+        "type": ["Weapon", "SMG"]
     },
     "Uzi": { // smg.txt
         "color": "Yellow",
@@ -264,7 +248,8 @@
         "files": [
             "models/w_models/weapons/w_smg_uzi.*",
             "models/v_models/v_smg.*"
-        ]
+        ],
+        "type": ["Weapon", "SMG"]
     },
     "AK47": {
         "color": "Yellow",
@@ -272,7 +257,8 @@
         "files": [
             "models/w_models/weapons/w_rifle_ak47.*",
             "models/v_models/v_rifle_AK47.*"
-        ]
+        ],
+        "type": ["Weapon", "Rifle"]
     },
     "M16A1": {
         "color": "Yellow",
@@ -280,7 +266,8 @@
         "files": [
             "models/w_models/weapons/w_rifle_m16a2.*",
             "models/v_models/v_rifle.*"
-        ]
+        ],
+        "type": ["Weapon", "Rifle"]
     },
     "Scar": { // rifle_desert.txt
         "color": "Yellow",
@@ -288,7 +275,8 @@
         "files": [
             "models/w_models/weapons/w_desert_rifle.*",
             "models/v_models/v_desert_rifle.*"
-        ]
+        ],
+        "type": ["Weapon", "Rifle"]
     },
     "HuntingRifle": {
         "color": "Yellow",
@@ -296,7 +284,8 @@
         "files": [
             "models/w_models/weapons/w_sniper_mini14.*",
             "models/v_models/v_huntingrifle.*"
-        ]
+        ],
+        "type": ["Weapon", "Sniper"]
     },
     "MilitarySniper": {
         "color": "Yellow",
@@ -304,7 +293,8 @@
         "files": [
             "models/w_models/weapons/w_sniper_military.*",
             "models/v_models/v_sniper_military.*"
-        ]
+        ],
+        "type": ["Weapon", "Sniper"]
     },
     "SPAS-12": {
         "color": "Yellow",
@@ -312,7 +302,8 @@
         "files": [
             "models/w_models/weapons/w_shotgun_spas.*",
             "models/v_models/v_shotgun_spas.*"
-        ]
+        ],
+        "type": ["Weapon", "Shotgun"]
     },
     "AutoShotgun": {
         "color": "Yellow",
@@ -320,7 +311,8 @@
         "files": [
             "models/w_models/weapons/w_autoshot_m4super.*",
             "models/v_models/v_autoshotgun.*"
-        ]
+        ],
+        "type": ["Weapon", "Shotgun"]
     },
     "ChromeShotgun": {
         "color": "Yellow",
@@ -328,7 +320,8 @@
         "files": [
             "models/w_models/weapons/w_pumpshotgun_A.*",
             "models/v_models/v_shotgun_chrome.*"
-        ]
+        ],
+        "type": ["Weapon", "Shotgun"]
     },
     "PumpShotgun": {
         "color": "Yellow",
@@ -336,7 +329,8 @@
         "files": [
             "models/w_models/weapons/w_shotgun.*",
             "models/v_models/v_pumpshotgun.*"
-        ]
+        ],
+        "type": ["Weapon", "Shotgun"]
     },
     "M60": {
         "color": "Yellow",
@@ -344,7 +338,8 @@
         "files": [
             "models/w_models/weapons/w_m60.*",
             "models/v_models/v_m60.*"
-        ]
+        ],
+        "type": ["Weapon"]
     },
     "GrenadeLauncher": {
         "color": "Yellow",
@@ -352,7 +347,8 @@
         "files": [
             "models/w_models/weapons/w_grenade_launcher.*",
             "models/v_models/v_grenade_launcher.*"
-        ]
+        ],
+        "type": ["Weapon"]
     }
     //
     // Melee Weapons
@@ -364,7 +360,8 @@
         "files": [
             "models/weapons/melee/v_shovel.*",
             "models/weapons/melee/w_shovel.*"
-        ]
+        ],
+        "type": ["Weapon", "Melee"]
     },
     "Pitchfork": {
         "color": "Green",
@@ -372,7 +369,8 @@
         "files": [
             "models/weapons/melee/v_pitchfork.*",
             "models/weapons/melee/w_pitchfork.*"
-        ]
+        ],
+        "type": ["Weapon", "Melee"]
     },
     "Knife": {
         "color": "Green",
@@ -380,7 +378,8 @@
         "files": [
             "models/v_models/v_knife_t.*",
             "models/w_models/weapons/w_knife_t.*"
-        ]
+        ],
+        "type": ["Weapon", "Melee"]
     },
     "ElectricGuitar": {
         "color": "Green",
@@ -388,7 +387,8 @@
         "files": [
             "models/weapons/melee/v_electric_guitar.*",
             "models/weapons/melee/w_electric_guitar.*"
-        ]
+        ],
+        "type": ["Weapon", "Melee"]
     },
     "CricketBat": {
         "color": "Green",
@@ -396,7 +396,8 @@
         "files": [
             "models/weapons/melee/v_cricket_bat.*",
             "models/weapons/melee/w_cricket_bat.*"
-        ]
+        ],
+        "type": ["Weapon", "Melee"]
     },
     "BaseballBat": {
         "color": "Green",
@@ -404,7 +405,8 @@
         "files": [
             "models/weapons/melee/v_bat.*",
             "models/weapons/melee/w_bat.*"
-        ]
+        ],
+        "type": ["Weapon", "Melee"]
     },
     "GolfClub": {
         "color": "Green",
@@ -412,7 +414,8 @@
         "files": [
             "models/weapons/melee/v_golfclub.*",
             "models/weapons/melee/w_golfclub.*"
-        ]
+        ],
+        "type": ["Weapon", "Melee"]
     },
     "Nightstick": {
         "color": "Green",
@@ -420,7 +423,8 @@
         "files": [
             "models/weapons/melee/v_tonfa.*",
             "models/weapons/melee/w_tonfa.*"
-        ]
+        ],
+        "type": ["Weapon", "Melee"]
     },
     "Katana": {
         "color": "Green",
@@ -428,7 +432,8 @@
         "files": [
             "models/weapons/melee/v_katana.*",
             "models/weapons/melee/w_katana.*"
-        ]
+        ],
+        "type": ["Weapon", "Melee"]
     },
     "Machete": {
         "color": "Green",
@@ -436,7 +441,8 @@
         "files": [
             "models/weapons/melee/v_machete.*",
             "models/weapons/melee/w_machete.*"
-        ]
+        ],
+        "type": ["Weapon", "Melee"]
     },
     "Fireaxe": {
         "color": "Green",
@@ -444,7 +450,8 @@
         "files": [
             "models/weapons/melee/v_fireaxe.*",
             "models/weapons/melee/w_fireaxe.*"
-        ]
+        ],
+        "type": ["Weapon", "Melee"]
     },
     "FryingPan": {
         "color": "Green",
@@ -452,7 +459,8 @@
         "files": [
             "models/weapons/melee/v_frying_pan.*",
             "models/weapons/melee/w_frying_pan.*"
-        ]
+        ],
+        "type": ["Weapon", "Melee"]
     },
     "Crowbar": {
         "color": "Green",
@@ -460,7 +468,8 @@
         "files": [
             "models/weapons/melee/v_crowbar.*",
             "models/weapons/melee/w_crowbar.*"
-        ]
+        ],
+        "type": ["Weapon", "Melee"]
     },
     "Chainsaw": {
         "color": "Green",
@@ -468,19 +477,21 @@
         "files": [
             "models/weapons/melee/v_chainsaw.*",
             "models/weapons/melee/w_chainsaw.*"
-        ]
+        ],
+        "type": ["Weapon", "Melee"]
     }
 
 
     // items
     ,
-    "FirstAidKit": {
+    "Medkit": {
         "color": "Green",
         "translate": {},
         "files": [
             "models/w_models/weapons/w_eq_Medkit.*",
             "models/v_models/v_medkit.*"
-        ]
+        ],
+        "type": ["Item"]
     },
     "Defibrillator": {
         "color": "Green",
@@ -488,7 +499,8 @@
         "files": [
             "models/w_models/weapons/w_eq_defibrillator.*",
             "models/v_models/v_defibrillator.*"
-        ]
+        ],
+        "type": ["Item"]
     },
     "PainPills": {
         "color": "Green",
@@ -496,7 +508,8 @@
         "files": [
             "models/w_models/weapons/w_eq_painpills.*",
             "models/v_models/v_painpills.*"
-        ]
+        ],
+        "type": ["Item"]
     },
     "Adrenaline": {
         "color": "Green",
@@ -504,7 +517,8 @@
         "files": [
             "models/w_models/weapons/w_eq_adrenaline.*",
             "models/v_models/v_adrenaline.*"
-        ]
+        ],
+        "type": ["Item"]
     },
     "ExplosiveAmmo": {
         "color": "Green",
@@ -512,7 +526,8 @@
         "files": [
             "models/w_models/weapons/w_eq_explosive_ammopack.*",
             "models/v_models/v_explosive_ammopack.*"
-        ]
+        ],
+        "type": ["Item"]
     },
     "IncendiaryAmmo": {
         "color": "Green",
@@ -520,22 +535,27 @@
         "files": [
             "models/w_models/weapons/w_eq_incendiary_ammopack.*",
             "models/v_models/v_incendiary_ammopack.*"
-        ]
+        ],
+        "type": ["Item"]
     },
     "LaserSight": {
         "color": "Green",
         "translate": {},
         "files": [
             "models/w_models/weapons/w_laser_sights.*"
-        ]
-    },
-    "MolotovCocktail": {
+        ],
+        "type": ["Item"]
+    }
+    
+    
+    ,"Molotov": {
         "color": "Green",
         "translate": {},
         "files": [
             "models/w_models/weapons/w_eq_molotov.*",
             "models/v_models/v_molotov.*"
-        ]
+        ],
+        "type": ["Weapon", "Throwable"]
     },
     "PipeBomb": {
         "color": "Green",
@@ -543,7 +563,8 @@
         "files": [
             "models/w_models/weapons/w_eq_pipebomb.*",
             "models/v_models/v_pipebomb.*"
-        ]
+        ],
+        "type": ["Weapon", "Throwable"]
     },
     "BileBomb": { // vomitjar
         "color": "Green",
@@ -551,35 +572,42 @@
         "files": [
             "models/w_models/weapons/w_eq_bile_flask.*",
             "models/v_models/v_bile_flask.*"
-        ]
-    },
-    "GasCan": {
+        ],
+        "type": ["Weapon", "Throwable"]
+    }
+    
+    
+    ,"GasCan": {
         "color": "Green",
         "translate": {},
         "files": [
             "models/props_junk/gascan001a.*"
-        ]
+        ],
+        "type": ["Item"]
     },
     "OxygenTank": {
         "color": "Green",
         "translate": {},
         "files": [
             "models/props_equipment/oxygentank01.*"
-        ]
+        ],
+        "type": ["Item"]
     },
     "PropaneTank": {
         "color": "Green",
         "translate": {},
         "files": [
             "models/props_junk/propanecanister001a.*"
-        ]
+        ],
+        "type": ["Item"]
     },
     "Fireworks": {
         "color": "Green",
         "translate": {},
         "files": [
             "models/props_junk/explosive_box001.*"
-        ]
+        ],
+        "type": ["Item"]
     },
     "ExplosiveBarrel": {
         "color": "Green",
@@ -588,7 +616,8 @@
             "models/props_industrial/barrel_fuel.*",
             "models/props_industrial/barrel_fuel_parta.*",
             "models/props_industrial/barrel_fuel_partb.*"
-        ]
+        ],
+        "type": ["Item"]
     },
     "Cola": {
         "color": "Green",
@@ -596,7 +625,8 @@
         "files": [
             "models/w_models/weapons/w_cola.*",
             "models/v_models/v_cola.*"
-        ]
+        ],
+        "type": ["Item"]
     },
     "GnomeChompski": {
         "color": "Green",
@@ -604,23 +634,124 @@
         "files": [
             "models/props_junk/gnome.*",
             "models/weapons/melee/v_gnome.*"
+        ],
+        "type": ["Item"]
+    }
+
+
+// Infected
+    ,"CommonInfected": {
+        "color": "Green",
+        "translate": {},
+        "files": [
+            "models/infected/common*"
         ]
-    },
-    "spr": {
+    }
+    ,"Boomer": {
+        "color": "Green",
+        "translate": {},
+        "files": [
+            "models/infected/boomer.*",
+            "models/infected/boomette.*",
+            "models/infected/boomer_l4d1.*",
+            "models/v_models/weapon/v_claw_boomer.*",
+            "models/v_models/weapon/v_claw_boomer_l4d1.*"
+        ],
+        "type": ["SpecialInfected"]
+    }
+    ,"Charger": {
+        "color": "Green",
+        "translate": {},
+        "files": [
+            "models/infected/charger.*",
+            "models/weapons/arms/v_charger_arms.*"
+        ],
+        "type": ["SpecialInfected"]
+    }
+    ,"Hunter": {
+        "color": "Green",
+        "translate": {},
+        "files": [
+            "models/infected/hunter.*",
+            "models/infected/hunter_l4d1.*",
+            "models/v_models/weapons/v_claw_hunter.*",
+            "models/v_models/weapons/v_claw_hunter_l4d1.*"
+        ],
+        "type": ["SpecialInfected"]
+    }
+    ,"Jockey": {
+        "color": "Green",
+        "translate": {},
+        "files": [
+            "models/infected/jockey.*",
+            "models/weapons/arms/v_jockey_arms.*"
+        ],
+        "type": ["SpecialInfected"]
+    }
+    ,"Smoker": {
+        "color": "Green",
+        "translate": {},
+        "files": [
+            "models/infected/smoker.*",
+            "models/infected/smoker_l4d1.*",
+            "models/v_models/weapons/v_claw_smoker.*",
+            "models/v_models/weapons/v_claw_smoker_l4d1.*"
+        ],
+        "type": ["SpecialInfected"]
+    }
+    ,"Spitter": {
+        "color": "Green",
+        "translate": {},
+        "files": [
+            "models/infected/spitter.*",
+            "models/weapons/arms/v_spitter_arms.*"
+        ],
+        "type": ["SpecialInfected"]
+    }
+    ,"Tank": {
+        "color": "Green",
+        "translate": {},
+        "files": [
+            "models/infected/hulk.*",
+            "models/infected/hulk_dlc3.*",
+            "models/infected/hulk_l4d1.*",
+            "models/v_models/weapons/v_claw_hulk.*",
+            "models/v_models/weapons/v_claw_hulk_dlc3.*",
+            "models/v_models/weapons/v_claw_hulk_l4d1.*"
+        ],
+        "type": ["SpecialInfected"]
+    }
+    ,"Witch": {
+        "color": "Green",
+        "translate": {},
+        "files": [
+            "models/infected/witch.*",
+            "models/infected/witch_bride.*"
+        ],
+        "type": ["SpecialInfected"]
+    }
+    
+
+
+    ,"SPR": {
         "color": "Red",
         "translate": {},
         "files": [
             "models/spb/reanims/**"
-        ]
+        ],
+        "type": ["Animation"]
     },
-    "xdr": {
+    "XDR": {
         "color": "Pink",
         "translate": {},
         "files": [
             "models/xdreanims/**"
-        ]
-    },
-    "skybox": {
+        ],
+        "type": ["Animation"]
+    }
+    
+    
+    ,"Skybox": {
         "color": "Purple",
         "translate": {},
         "files": [

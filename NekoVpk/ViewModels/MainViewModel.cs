@@ -169,8 +169,8 @@ public partial class MainViewModel : ViewModelBase
             string types = string.Empty;
             foreach (var t in tags)
             {
-                if (t.Alias is null) { continue; }
-                foreach (var t2 in t.Alias)
+                if (t.Type is null) { continue; }
+                foreach (var t2 in t.Type)
                 {
                     if (!types.Contains(t2))
                     {

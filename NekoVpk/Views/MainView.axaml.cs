@@ -182,17 +182,17 @@ public partial class MainView : UserControl
         {
             switch(tag.Name)
             {
-                case "bill":
-                case "coach":
-                case "ellis":
-                case "francis":
-                case "louis":
-                case "nick":
-                case "rochelle":
-                case "zoey":
-                case "bill_deathpose":
-                case "francis_light":
-                case "zoey_light":
+                case "Bill":
+                case "Coach":
+                case "Ellis":
+                case "Francis":
+                case "Louis":
+                case "Nick":
+                case "Rochelle":
+                case "Zoey":
+                case "BillDeathPose":
+                case "FrancisLight":
+                case "ZoeyLight":
                     break;
                 default:
                     return;
