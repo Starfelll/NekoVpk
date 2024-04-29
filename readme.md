@@ -20,6 +20,9 @@
 
 
 ## changelog
+#### v0.1.2
+- Tag: Support for infected assets.
+- Add a new column to display the type of addon.
 #### v0.1.1
 - Automatically back up files when they are modified.
 #### v0.1.0
