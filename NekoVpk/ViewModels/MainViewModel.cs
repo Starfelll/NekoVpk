@@ -109,8 +109,21 @@ public partial class MainViewModel : ViewModelBase
             {
                 addonEnabled = addonList.IsEnabled(fileInfo.Name);
             }
+
             Package pak = new();
-            pak.Read(fileInfo.FullName);
+            try
+            {
+                pak.Read(fileInfo.FullName);
+            } catch(Exception ex)
+            {
+                var box = MessageBoxManager.GetMessageBoxStandard(
+                    "Failed to read vpk",
+                    $"Could not open: \n{fileInfo.FullName}\n\n{ex.Message}", 
+                    ButtonEnum.Ok);
+                await box.ShowAsync();
+                continue;
+            }
+            
 
             PackageEntry? addonInfoEntry = null;
 
@@ -125,17 +138,17 @@ public partial class MainViewModel : ViewModelBase
                 return false;
             };
             
-            if (pak.Version != 1 && pak.Version != 2)
-            {
-                string glob = $"VPK-Version-{pak.Version}";
-                AssetTag? versionTag = TaggedAssets.GetAssetTag(glob, false);
-                if (versionTag is null)
-                {
-                    TaggedAssets.Tags.Add(new AssetTagProperty("0x" + Convert.ToString(pak.Version, 16).ToUpper(), [Glob.Parse(glob)]));
-                    versionTag = new AssetTag(TaggedAssets.Tags.Count-1, false);
-                }
-                tags.Add(versionTag);
-            }
+            //if (pak.Version != 1 && pak.Version != 2)
+            //{
+            //    string glob = $"VPK-Version-{pak.Version}";
+            //    AssetTag? versionTag = TaggedAssets.GetAssetTag(glob, false);
+            //    if (versionTag is null)
+            //    {
+            //        TaggedAssets.Tags.Add(new AssetTagProperty("0x" + Convert.ToString(pak.Version, 16).ToUpper(), [Glob.Parse(glob)]));
+            //        versionTag = new AssetTag(TaggedAssets.Tags.Count-1, false);
+            //    }
+            //    tags.Add(versionTag);
+            //}
 
             var entties = pak.Entries;
             foreach (var entity in entties)
