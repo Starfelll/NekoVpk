@@ -20,6 +20,8 @@
 
 
 ## changelog
+#### v0.1.3
+- Skip reading failed vpk files
 #### v0.1.2
 - Tag: Support for infected assets.
 - Add a new column to display the type of addon.
