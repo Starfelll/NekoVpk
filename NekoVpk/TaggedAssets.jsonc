@@ -10,17 +10,10 @@
         "materials/vgui/s_panel_namvet_incap.vmt",
         "materials/vgui/select_bill.vmt",
         "models/survivors/survivor_namvet.*",
-        "models/weapons/arms/v_arms_bill.*"
+        "models/weapons/arms/v_arms_bill.*",
+        "models/survivors/namvet/namvet_deathpose.*"
       ],
       "type": ["Survivor"]
-    },
-    "BillDeathPose": {
-        "color": "Red",
-        "translate": {},
-        "files": [
-            "models/survivors/namvet/namvet_deathpose.*"
-        ],
-        "type": ["Survivor"]
     },
     "Coach": {
         "color": "Pink",
@@ -63,14 +56,7 @@
             "materials/vgui/s_panel_biker_incap.vmt",
             "materials/vgui/select_francis.vmt",
             "models/survivors/survivor_biker.*",
-            "models/weapons/arms/v_arms_francis.*"
-        ],
-        "type": ["Survivor"]
-    },
-    "FrancisLight": {
-        "color": "Violet",
-        "translate": {},
-        "files": [
+            "models/weapons/arms/v_arms_francis.*",
             "models/survivors/survivor_biker_light.*"
         ],
         "type": ["Survivor"]
@@ -131,14 +117,7 @@
             "materials/vgui/s_panel_teenangst_incap.vmt",
             "materials/vgui/select_zoey.vmt",
             "models/survivors/survivor_teenangst.*",
-            "models/weapons/arms/v_arms_zoey.*"
-        ],
-        "type": ["Survivor"]
-    },
-    "ZoeyLight": {
-        "color": "Cyan",
-        "translate": {},
-        "files": [
+            "models/weapons/arms/v_arms_zoey.*",
             "models/survivors/survivor_teenangst_light.*"
         ],
         "type": ["Survivor"]
