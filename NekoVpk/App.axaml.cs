@@ -12,7 +12,7 @@ public partial class App : Application
 {
     public static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
-    public const string Version = "0.1.3.0";
+    public const string Version = "0.1.4.0";
 
     public const string VersionSuffix = "-Beta";
 

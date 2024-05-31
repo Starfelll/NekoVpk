@@ -20,6 +20,10 @@
 
 
 ## changelog
+#### v0.1.4
+- Store window size and position.
+- Tag: merge zoey_light, francis_light, bill_death_pose, modify script to vscript.
+- Fixed a bug that caused the window to freeze when vpk content was enabled.
 #### v0.1.3
 - Skip reading failed vpk files
 #### v0.1.2
