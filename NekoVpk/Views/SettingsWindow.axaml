@@ -33,7 +33,7 @@
 				<TextBox Name="GameDir" Text="{Binding GameDir}" InnerLeftContent="GameDir" TextWrapping="NoWrap" Width="600" Height="32" IsUndoEnabled="True"></TextBox>
 				<Button Classes="Tertiary" Height="32" Click="Browser_Click">...</Button>
 			</StackPanel>
-			<!--<StackPanel Grid.Row="1">
+			<StackPanel Grid.Row="1">
 				<Label>CompressionLevel</Label>
 				<ComboBox Name="ComboBox_CompressionLevel" Width="100" SelectedIndex="{Binding CompressionLevel}">
 					<ComboBoxItem>Fast</ComboBoxItem>
@@ -42,7 +42,7 @@
 					<ComboBoxItem>High</ComboBoxItem>
 					<ComboBoxItem>Ultra</ComboBoxItem>
 				</ComboBox>
-			</StackPanel>-->
+			</StackPanel>
 		</Grid>
 	</StackPanel>
 </Window>

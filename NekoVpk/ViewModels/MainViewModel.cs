@@ -186,7 +186,7 @@ public partial class MainViewModel : ViewModelBase
                 }
                 catch (Exception ex)
                 {
-                    App.Logger.Error(ex);
+                    App.Logger.Error($"An error occurred while loading addoninfo from \"{fileInfo.FullName}\".\n{ex.Message}");
                 }
             }
             addonInfo ??= new();

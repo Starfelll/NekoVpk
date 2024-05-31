@@ -152,11 +152,18 @@
             "maps/**"
         ]
     }
-    ,"Script": {
+    ,"Spray": {
         "color": "Amber",
         "translate": {},
         "files": [
-            "scripts/**"
+            "scripts/sprays_manifest.txt"
+        ]
+    }
+    ,"VScript": {
+        "color": "Amber",
+        "translate": {},
+        "files": [
+            "scripts/vscripts/**"
         ]
     },
     "Particle": {
@@ -525,7 +532,8 @@
         "translate": {},
         "files": [
             "models/w_models/weapons/w_eq_explosive_ammopack.*",
-            "models/v_models/v_explosive_ammopack.*"
+            "models/v_models/v_explosive_ammopack.*",
+            "models/props/terror/exploding_ammo.*"
         ],
         "type": ["Item"]
     },
@@ -534,7 +542,8 @@
         "translate": {},
         "files": [
             "models/w_models/weapons/w_eq_incendiary_ammopack.*",
-            "models/v_models/v_incendiary_ammopack.*"
+            "models/v_models/v_incendiary_ammopack.*",
+            "models/props/terror/incendiary_ammo.*"
         ],
         "type": ["Item"]
     },

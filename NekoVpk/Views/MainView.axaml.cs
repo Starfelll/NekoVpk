@@ -206,7 +206,7 @@ public partial class MainView : UserControl
         }
     }
 
-    private void Button_AssetTagModifiedPanel_Apply(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    private async void Button_AssetTagModifiedPanel_Apply(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
 
         if (AddonList.SelectedItem is AddonAttribute att && DataContext is MainViewModel vm)
@@ -284,15 +284,15 @@ public partial class MainView : UserControl
                 {
                     CompressionMode = extractor is null ? CompressionMode.Create : CompressionMode.Append,
                     ArchiveFormat = OutArchiveFormat.SevenZip,
-                    //CompressionLevel = (CompressionLevel)NekoSettings.Default.CompressionLevel,
-                    CompressionLevel = CompressionLevel.Ultra,
+                    CompressionLevel = (CompressionLevel)NekoSettings.Default.CompressionLevel,
+                    //CompressionLevel = CompressionLevel.Normal,
                     CompressionMethod = CompressionMethod.Lzma2,
                 };
 
 
                 // move zip files to vpk
                 if (extractor != null && disableZipFiles.Count > 0) {
-                    extractor.ExtractFiles(tmpDir.FullName, disableZipFiles.Keys.ToArray());
+                    await extractor.ExtractFilesAsync(tmpDir.FullName, disableZipFiles.Keys.ToArray());
                     foreach (var v in vpkFiles)
                     {
                         FileInfo file = new (Path.Join(tmpDir.FullName, v));
