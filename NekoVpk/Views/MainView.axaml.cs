@@ -1,6 +1,5 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Media.Imaging;
-using Avalonia.Platform.Storage;
 using NekoVpk.Core;
 using NekoVpk.ViewModels;
 using SteamDatabase.ValvePak;
@@ -10,8 +9,6 @@ using System.IO;
 using System.Diagnostics;
 using SevenZip;
 using System.Linq;
-using ReactiveUI;
-using System.Threading.Tasks;
 using Avalonia.Threading;
 
 namespace NekoVpk.Views;
@@ -235,11 +232,11 @@ public partial class MainView : UserControl
                         pkg.ExtratFile(entry.Value[0], tmpFile);
                         tmpFile.Refresh();
                         pkg.RemoveFile(entry.Value[0]);
-                        extractor = new(tmpFile.FullName);
+                        extractor = new SevenZipExtractor(tmpFile.FullName, InArchiveFormat.SevenZip);
                         break;
                     }
                 }
-
+               
                 if (!tmpFile.Exists) tmpFile.Create().Close();
                 tmpFile.Attributes |= FileAttributes.Temporary;
 
@@ -280,15 +277,15 @@ public partial class MainView : UserControl
                 }
 
 
-                compressor = new()
+                compressor = new SevenZipCompressor()
                 {
                     CompressionMode = extractor is null ? CompressionMode.Create : CompressionMode.Append,
                     ArchiveFormat = OutArchiveFormat.SevenZip,
                     //CompressionLevel = (CompressionLevel)NekoSettings.Default.CompressionLevel,
                     CompressionLevel = CompressionLevel.Ultra,
                     CompressionMethod = CompressionMethod.Lzma2,
+                    EventSynchronization = EventSynchronizationStrategy.AlwaysSynchronous,
                 };
-                
 
                 // move zip files to vpk
                 if (extractor != null && disableZipFiles.Count > 0) {
@@ -301,7 +298,7 @@ public partial class MainView : UserControl
                         }
                     }
                     // delete file in archive
-                    await compressor.ModifyArchiveAsync(tmpFile.FullName, disableZipFiles);
+                    compressor.ModifyArchive(tmpFile.FullName, disableZipFiles);
                 }
 
                 // move vpk files to zip
@@ -352,6 +349,11 @@ public partial class MainView : UserControl
             cancel:
                 CancelAssetTagChange();
                 goto clean;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+                throw ex;
             }
             finally
             {
