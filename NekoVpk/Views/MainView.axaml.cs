@@ -284,11 +284,11 @@ public partial class MainView : UserControl
                 {
                     CompressionMode = extractor is null ? CompressionMode.Create : CompressionMode.Append,
                     ArchiveFormat = OutArchiveFormat.SevenZip,
-                    CompressionLevel = (CompressionLevel)NekoSettings.Default.CompressionLevel,
-                    //CompressionLevel = CompressionLevel.Normal,
+                    //CompressionLevel = (CompressionLevel)NekoSettings.Default.CompressionLevel,
+                    CompressionLevel = CompressionLevel.Ultra,
                     CompressionMethod = CompressionMethod.Lzma2,
                 };
-
+                
 
                 // move zip files to vpk
                 if (extractor != null && disableZipFiles.Count > 0) {
@@ -301,7 +301,7 @@ public partial class MainView : UserControl
                         }
                     }
                     // delete file in archive
-                    compressor.ModifyArchive(tmpFile.FullName, disableZipFiles);
+                    await compressor.ModifyArchiveAsync(tmpFile.FullName, disableZipFiles);
                 }
 
                 // move vpk files to zip

@@ -35,13 +35,13 @@
 			</StackPanel>
 			<StackPanel Grid.Row="1">
 				<Label>CompressionLevel</Label>
-				<ComboBox Name="ComboBox_CompressionLevel" Width="100" SelectedIndex="{Binding CompressionLevel}">
+				<!--<ComboBox Name="ComboBox_CompressionLevel" Width="100" SelectedIndex="{Binding CompressionLevel}">
 					<ComboBoxItem>Fast</ComboBoxItem>
 					<ComboBoxItem>Low</ComboBoxItem>
 					<ComboBoxItem>Normal</ComboBoxItem>
 					<ComboBoxItem>High</ComboBoxItem>
 					<ComboBoxItem>Ultra</ComboBoxItem>
-				</ComboBox>
+				</ComboBox>-->
 			</StackPanel>
 		</Grid>
 	</StackPanel>
