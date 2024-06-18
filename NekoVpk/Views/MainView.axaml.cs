@@ -208,11 +208,15 @@ public partial class MainView : UserControl
 
         if (AddonList.SelectedItem is AddonAttribute att && DataContext is MainViewModel vm)
         {
+
             Package? pkg = null;
+            SevenZipExtractor? extractor = null;
+            SevenZipCompressor? compressor = null;
+            DirectoryInfo? tmpDir = null; 
             try
             {
                 pkg = att.LoadPackage(vm.GameDir);
-                DirectoryInfo tmpDir = new (pkg.FileName + "_nekotmp");
+                tmpDir = new(pkg.FileName + "_nekotmp");
 
                 if (tmpDir.Exists)
                     tmpDir.Delete(true);
@@ -220,9 +224,6 @@ public partial class MainView : UserControl
                 tmpDir.Attributes |= FileAttributes.Hidden;
 
                 FileInfo tmpFile = new(Path.Join(tmpDir.FullName, att.FileName + ".nekotmp"));
-
-                SevenZipExtractor? extractor = null;
-                SevenZipCompressor? compressor = null;
 
                 // find neko7z
                 foreach (var entry in pkg.Entries)
@@ -247,15 +248,14 @@ public partial class MainView : UserControl
 
                 if (extractor is not null)
                 {
-                    foreach (var zipFile in extractor.ArchiveFileData)
+                    foreach (var zipFileData in extractor.ArchiveFileData)
                     {
-                        if (zipFile.IsDirectory) continue;
                         foreach (var tag in ModifiedAssetTags.Keys)
                         {
-                            if (tag.Enable && tag.Proporty.IsMatch(zipFile.FileName))
+                            if (tag.Enable && tag.Proporty.IsMatch(zipFileData.FileName))
                             {
-                                disableZipFiles.Add(zipFile.Index, null);
-                                vpkFiles.Add(zipFile.FileName);
+                                disableZipFiles.Add(zipFileData.Index, null);
+                                vpkFiles.Add(zipFileData.FileName);
                                 break;
                             }
                         }
@@ -281,8 +281,7 @@ public partial class MainView : UserControl
                 {
                     CompressionMode = extractor is null ? CompressionMode.Create : CompressionMode.Append,
                     ArchiveFormat = OutArchiveFormat.SevenZip,
-                    //CompressionLevel = (CompressionLevel)NekoSettings.Default.CompressionLevel,
-                    CompressionLevel = CompressionLevel.Ultra,
+                    CompressionLevel = (CompressionLevel)NekoSettings.Default.CompressionLevel,
                     CompressionMethod = CompressionMethod.Lzma2,
                     EventSynchronization = EventSynchronizationStrategy.AlwaysSynchronous,
                 };
@@ -298,7 +297,14 @@ public partial class MainView : UserControl
                         }
                     }
                     // delete file in archive
+                    int originCount = extractor.ArchiveFileNames.Count;
                     compressor.ModifyArchive(tmpFile.FullName, disableZipFiles);
+
+                    extractor = new SevenZipExtractor(tmpFile.FullName, InArchiveFormat.SevenZip);
+                    if ( extractor.ArchiveFileNames.Count != originCount - disableZipFiles.Count)
+                    {
+                        throw new Exception("Modified archive has an unexpected number of files.");
+                    }
                 }
 
                 // move vpk files to zip
@@ -316,7 +322,7 @@ public partial class MainView : UserControl
                 }
 
                 
-                if (zipFiles.Count > 0 || (extractor != null && disableZipFiles.Count < extractor.ArchiveFileData.Count))
+                if (zipFiles.Count > 0 || disableZipFiles.Count > 0)
                 {
                     tmpFile.Refresh();
                     pkg.AddFile(pkg.GenNekoDir() + "0.neko7z", tmpFile);
@@ -340,24 +346,19 @@ public partial class MainView : UserControl
                 // update UI
                 ModifiedAssetTags.Clear();
                 AssetTagModifiedPanel.IsVisible = false;
-
-            clean:
-                extractor?.Dispose();
-                if (tmpDir.Exists)
-                    tmpDir.Delete(true);
-                return;
-            cancel:
-                CancelAssetTagChange();
-                goto clean;
             }
             catch (Exception ex)
             {
+                CancelAssetTagChange();
                 Debug.WriteLine(ex);
                 throw ex;
             }
             finally
             {
                 pkg?.Dispose();
+                extractor?.Dispose();
+                if (tmpDir is not null && tmpDir.Exists)
+                    tmpDir.Delete(true);
             }
         }
     }

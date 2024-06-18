@@ -37,7 +37,7 @@ namespace NekoVpk {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        [global::System.Configuration.DefaultSettingValueAttribute("3")]
         public short CompressionLevel {
             get {
                 return ((short)(this["CompressionLevel"]));

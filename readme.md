@@ -19,7 +19,15 @@
 * ![](https://github.com/Starfelll/NekoVpk/blob/main/image/%7B5B7F3754-AEAB-478f-90C3-D0D2934D8D8A%7D.png)
 
 
+## Special Dependencies
+https://github.com/Starfelll/ValvePak/tree/nekovpk
+https://github.com/Starfelll/ValveKeyValue/tree/nekovpk
+
+
 ## changelog
+#### v0.1.5
+- Fixed the issue that files would be lost when only one disabled vpk content was left.
+- Setting: added option "Compression level".
 #### v0.1.4
 - Store window size and position.
 - Tag: merge zoey_light, francis_light, bill_death_pose, modify script to vscript.
